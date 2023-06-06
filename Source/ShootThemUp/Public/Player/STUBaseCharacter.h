@@ -10,6 +10,9 @@ class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 class USpringArmComponent;
+class USTUHealthComponent;
+class UTextRenderComponent;
+class USTUWeaponComponent;
 struct FInputActionValue;
 
 UCLASS()
@@ -40,12 +43,18 @@ public:
 	float GetMovementDirection() const;
 
 private:
+	UFUNCTION()
+	void OnGroundLanded(const FHitResult& Hit);
+
+private:
 	void MoveForward(const FInputActionValue& Value);
 	void MoveRight(const FInputActionValue& Value);
 	void LookUp(const FInputActionValue& Value);
 	void TurnAround(const FInputActionValue& Value);
 	void OnStartRunning();
 	void OnStopRunning();
+	void OnDeath();
+	void OnHealthChanged(float Health);
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
@@ -54,7 +63,25 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UCameraComponent* CameraComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	USTUHealthComponent* HealthComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	UTextRenderComponent* HealthTextComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	USTUWeaponComponent* WeaponComponent;
+
 private:
+	UPROPERTY(EditDefaultsOnly, Category = "Animation")
+	UAnimMontage* DeathAnimMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	FVector2D LandedDamageVelocity;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	FVector2D LandedDamage;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputMappingContext* DefaultInputMappingContext;
 
@@ -75,6 +102,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* RunInputAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* FireInputAction;
 
 private:
 	bool bWantsToRun;
