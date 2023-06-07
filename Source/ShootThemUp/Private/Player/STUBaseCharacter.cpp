@@ -8,6 +8,8 @@
 #include "Components/STUHealthComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "Components/STUWeaponComponent.h"
+#include "Components/CapsuleComponent.h"
+
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
@@ -50,6 +52,7 @@ ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer& ObjInit)
 	JumpInputAction = CreateDefaultSubobject<UInputAction>(TEXT("JumpInputAction"));
 	RunInputAction = CreateDefaultSubobject<UInputAction>(TEXT("RunInputAction"));
 	FireInputAction = CreateDefaultSubobject<UInputAction>(TEXT("FireInputAction"));
+	NextWeaponInputAction = CreateDefaultSubobject<UInputAction>(TEXT("NextWeaponInputAction"));
 }
 
 // Called when the game starts or when spawned
@@ -99,7 +102,9 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		Input->BindAction(JumpInputAction, ETriggerEvent::Triggered, this, &ASTUBaseCharacter::Jump);
 		Input->BindAction(RunInputAction, ETriggerEvent::Triggered, this, &ASTUBaseCharacter::OnStartRunning);
 		Input->BindAction(RunInputAction, ETriggerEvent::Completed, this, &ASTUBaseCharacter::OnStopRunning);
-		Input->BindAction(FireInputAction, ETriggerEvent::Triggered, WeaponComponent, &USTUWeaponComponent::Fire);
+		Input->BindAction(FireInputAction, ETriggerEvent::Started, WeaponComponent, &USTUWeaponComponent::StartFire);
+		Input->BindAction(FireInputAction, ETriggerEvent::Completed, WeaponComponent, &USTUWeaponComponent::StopFire);
+		Input->BindAction(NextWeaponInputAction, ETriggerEvent::Triggered, WeaponComponent, &USTUWeaponComponent::NextWeapon);
 	}
 }
 
@@ -199,6 +204,9 @@ void ASTUBaseCharacter::OnDeath()
 	{
 		Controller->ChangeState(NAME_Spectating);
 	}
+
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	WeaponComponent->StopFire();
 }
 
 void ASTUBaseCharacter::OnHealthChanged(float Health)
