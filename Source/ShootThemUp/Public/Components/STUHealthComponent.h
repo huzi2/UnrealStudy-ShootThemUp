@@ -4,10 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "STUCoreTypes.h"
 #include "STUHealthComponent.generated.h"
-
-DECLARE_MULTICAST_DELEGATE(FOnDeath)
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float)
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
@@ -22,8 +20,12 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+public:
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercent() const { return Health / MaxHealth; }
+
 protected:
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Health")
 	bool IsDead() const { return FMath::IsNearlyZero(Health); }
 
 private:

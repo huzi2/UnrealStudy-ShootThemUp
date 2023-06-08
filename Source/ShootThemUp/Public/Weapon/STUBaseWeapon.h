@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "STUCoreTypes.h"
 #include "STUBaseWeapon.generated.h"
 
 UCLASS()
@@ -27,11 +28,21 @@ protected:
 	virtual void MakeShot();
 	virtual bool GetTraceData(FVector& OutTraceStart, FVector& OutTraceEnd) const;
 
+public:
+	void ChangeClip();
+	bool CanReload() const;
+	FWeaponUIData GetUIData() const { return UIData; }
+	FAmmoData GetAmmoData() const { return CurrentAmmo; }
+
 protected:
 	bool GetPlayerViewPoint(FVector& OutViewLocation, FRotator& OutViewRotation) const;
 	FVector GetMuzzleWorldLocation() const;
 	void MakeHit(FHitResult& OutHitResult, const FVector& TraceStart, const FVector& TraceEnd);
 	APlayerController* GetPlayerController() const;
+	void DecreaseAmmo();
+	bool IsAmmoEmpty() const;
+	bool IsClipEmpty() const;
+	void LogAmmo();
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
@@ -42,4 +53,16 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float TraceMaxDistance;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	FAmmoData DefaultAmmo;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	FWeaponUIData UIData;
+
+public:
+	FOnClipEmptySiganature OnClipEmpty;
+
+private:
+	FAmmoData CurrentAmmo;
 };

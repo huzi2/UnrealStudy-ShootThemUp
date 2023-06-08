@@ -10,6 +10,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogBaseWeapon, All, All);
 ASTUBaseWeapon::ASTUBaseWeapon()
 	: MuzzleSocketName(TEXT("MuzzleSocket"))
 	, TraceMaxDistance(1500.f)
+	, DefaultAmmo({15, 10, false})
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -24,6 +25,10 @@ void ASTUBaseWeapon::BeginPlay()
 	Super::BeginPlay();
 	
 	check(WeaponMeshComponent);
+	checkf(DefaultAmmo.Bullets > 0, TEXT("Bullets count couldn't b less or equal zero"));
+	checkf(DefaultAmmo.Clips > 0, TEXT("Clips count couldn't b less or equal zero"));
+
+	CurrentAmmo = DefaultAmmo;
 }
 
 void ASTUBaseWeapon::StartFire()
@@ -51,6 +56,28 @@ bool ASTUBaseWeapon::GetTraceData(FVector& OutTraceStart, FVector& OutTraceEnd) 
 	const FVector ShootDirection = ViewRotation.Vector();
 	OutTraceEnd = OutTraceStart + ShootDirection * TraceMaxDistance;
 	return true;
+}
+
+void ASTUBaseWeapon::ChangeClip()
+{
+	if (!CurrentAmmo.Infinite)
+	{
+		if (CurrentAmmo.Clips == 0)
+		{
+			UE_LOG(LogBaseWeapon, Display, TEXT("No more clips"));
+			return;
+		}
+		--CurrentAmmo.Clips;
+	}
+
+	CurrentAmmo.Bullets = DefaultAmmo.Bullets;
+
+	UE_LOG(LogBaseWeapon, Display, TEXT("----- Change Clip -----"));
+}
+
+bool ASTUBaseWeapon::CanReload() const
+{
+	return CurrentAmmo.Bullets < DefaultAmmo.Bullets && CurrentAmmo.Clips > 0;
 }
 
 bool ASTUBaseWeapon::GetPlayerViewPoint(FVector& OutViewLocation, FRotator& OutViewRotation) const
@@ -91,4 +118,40 @@ APlayerController* ASTUBaseWeapon::GetPlayerController() const
 		return nullptr;
 	}
 	return Player->GetController<APlayerController>();
+}
+
+void ASTUBaseWeapon::DecreaseAmmo()
+{
+	if (CurrentAmmo.Bullets == 0)
+	{
+		UE_LOG(LogBaseWeapon, Display, TEXT("Clip is empty"));
+		return;
+	}
+
+	--CurrentAmmo.Bullets;
+	LogAmmo();
+
+	if (IsClipEmpty() && !IsAmmoEmpty())
+	{
+		StopFire();
+		OnClipEmpty.Broadcast();
+	}
+}
+
+bool ASTUBaseWeapon::IsAmmoEmpty() const
+{
+	return !CurrentAmmo.Infinite && CurrentAmmo.Clips == 0 && IsClipEmpty();
+}
+
+bool ASTUBaseWeapon::IsClipEmpty() const
+{
+	return CurrentAmmo.Bullets == 0;
+}
+
+void ASTUBaseWeapon::LogAmmo()
+{
+	FString AmmoInfo = TEXT("Ammo : ") + FString::FromInt(CurrentAmmo.Bullets) + TEXT(" / ");
+	AmmoInfo += CurrentAmmo.Infinite ? TEXT("Infinite") : FString::FromInt(CurrentAmmo.Clips);
+
+	UE_LOG(LogBaseWeapon, Display, TEXT("%s"), *AmmoInfo);
 }

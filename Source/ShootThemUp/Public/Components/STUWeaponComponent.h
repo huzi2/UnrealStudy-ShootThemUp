@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "STUCoreTypes.h"
 #include "STUWeaponComponent.generated.h"
 
 class ASTUBaseWeapon;
@@ -26,6 +27,9 @@ public:
 	void StartFire();
 	void StopFire();
 	void NextWeapon();
+	void Reload();
+	bool GetCurrentWeaponUIData(FWeaponUIData& OutUIData) const;
+	bool GetCurrentWeaponAmmoData(FAmmoData& OutAmmoData) const;
 
 private:
 	void SpawnWeapons();
@@ -34,12 +38,16 @@ private:
 	void PlayAnimMontage(UAnimMontage* Animation);
 	void InitAnimations();
 	void OnEquipFinished(USkeletalMeshComponent* MeshComponent); 
+	void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
 	bool CanFire() const;
 	bool CanEquip() const;
+	bool CanReload() const;
+	void OnEmptyClip();
+	void ChangeClip();
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TArray<TSubclassOf<ASTUBaseWeapon>> WeaponClasses;
+	TArray<FWeaponData> WeaponData;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	FName WeaponEquipSocketName;
@@ -56,7 +64,11 @@ private:
 	UPROPERTY()
 	TArray<ASTUBaseWeapon*> Weapons;
 
+	UPROPERTY()
+	UAnimMontage* CurrentReloadAnimMontage;
+
 private:
 	int32 CurrentWeaponIndex;
 	bool EquipAnimInProgress;
+	bool ReloadAnimInProgress;
 };

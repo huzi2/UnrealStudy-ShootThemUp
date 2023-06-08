@@ -53,6 +53,7 @@ ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer& ObjInit)
 	RunInputAction = CreateDefaultSubobject<UInputAction>(TEXT("RunInputAction"));
 	FireInputAction = CreateDefaultSubobject<UInputAction>(TEXT("FireInputAction"));
 	NextWeaponInputAction = CreateDefaultSubobject<UInputAction>(TEXT("NextWeaponInputAction"));
+	ReloadInputAction = CreateDefaultSubobject<UInputAction>(TEXT("ReloadInputAction"));
 }
 
 // Called when the game starts or when spawned
@@ -105,6 +106,7 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		Input->BindAction(FireInputAction, ETriggerEvent::Started, WeaponComponent, &USTUWeaponComponent::StartFire);
 		Input->BindAction(FireInputAction, ETriggerEvent::Completed, WeaponComponent, &USTUWeaponComponent::StopFire);
 		Input->BindAction(NextWeaponInputAction, ETriggerEvent::Triggered, WeaponComponent, &USTUWeaponComponent::NextWeapon);
+		Input->BindAction(ReloadInputAction, ETriggerEvent::Triggered, WeaponComponent, &USTUWeaponComponent::Reload);
 	}
 }
 

@@ -109,6 +109,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* NextWeaponInputAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* ReloadInputAction;
+
 private:
 	bool bWantsToRun;
 	bool bIsMovingForward;
