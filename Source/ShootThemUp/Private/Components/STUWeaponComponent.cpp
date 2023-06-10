@@ -41,8 +41,11 @@ void USTUWeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	CurrentWeapon = nullptr;
 	for (ASTUBaseWeapon* Weapon : Weapons)
 	{
-		Weapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-		Weapon->Destroy();
+		if (Weapon)
+		{
+			Weapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+			Weapon->Destroy();
+		}
 	}
 
 	Weapons.Empty();
@@ -106,6 +109,23 @@ bool USTUWeaponComponent::GetCurrentWeaponAmmoData(FAmmoData& OutAmmoData) const
 	return false;
 }
 
+bool USTUWeaponComponent::TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount)
+{
+	if (!WeaponType)
+	{
+		return false;
+	}
+
+	for (ASTUBaseWeapon* Weapon : Weapons)
+	{
+		if (Weapon && Weapon->IsA(WeaponType))
+		{
+			return Weapon->TryToAddAmmo(ClipsAmount);
+		}
+	}
+	return false;
+}
+
 void USTUWeaponComponent::SpawnWeapons()
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
@@ -122,7 +142,7 @@ void USTUWeaponComponent::SpawnWeapons()
 			continue;
 		}
 
-		Weapon->OnClipEmpty.AddUObject(this, &USTUWeaponComponent::OnEmptyClip);
+		Weapon->OnClipEmpty.AddUObject(this, &USTUWeaponComponent::OnClipEmpty);
 		Weapon->SetOwner(Character);
 		Weapons.Add(Weapon);
 
@@ -251,9 +271,27 @@ bool USTUWeaponComponent::CanReload() const
 	return CurrentWeapon && !EquipAnimInProgress && !ReloadAnimInProgress && CurrentWeapon->CanReload();
 }
 
-void USTUWeaponComponent::OnEmptyClip()
+void USTUWeaponComponent::OnClipEmpty(ASTUBaseWeapon* AmmoEmptyWeapon)
 {
-	ChangeClip();
+	if (!AmmoEmptyWeapon)
+	{
+		return;
+	}
+
+	if (CurrentWeapon == AmmoEmptyWeapon)
+	{
+		ChangeClip();
+	}
+	else
+	{
+		for (ASTUBaseWeapon* Weapon : Weapons)
+		{
+			if (Weapon == AmmoEmptyWeapon)
+			{
+				Weapon->ChangeClip();
+			}
+		}
+	}
 }
 
 void USTUWeaponComponent::ChangeClip()

@@ -24,7 +24,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetHealthPercent() const { return Health / MaxHealth; }
 
-protected:
 	UFUNCTION(BlueprintPure, Category = "Health")
 	bool IsDead() const { return FMath::IsNearlyZero(Health); }
 
@@ -34,10 +33,13 @@ private:
 
 public:
 	float GetHealth() const { return Health; }
+	bool TryToAddHealth(float HealthAmount);
 
 private:
 	void HealUpdate();
 	void SetHealth(float NewHealth);
+	bool IsHealthFull() const;
+	void PlayCameraShake();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0.0", ClampMax = "1000.0"))
@@ -54,6 +56,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "bAutoHeal"))
 	float HealModifier;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	TSubclassOf<UCameraShakeBase> CameraShake;
 
 public:
 	FOnDeath OnDeath;

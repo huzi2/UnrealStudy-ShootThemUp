@@ -55,13 +55,26 @@ void USTUHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, co
 	{
 		GetWorld()->GetTimerManager().SetTimer(HealTimerHandle, this, &USTUHealthComponent::HealUpdate, HealUpdateTime, true, HealDelay);
 	}
+
+	PlayCameraShake();
+}
+
+bool USTUHealthComponent::TryToAddHealth(float HealthAmount)
+{
+	if (IsHealthFull() || IsDead())
+	{
+		return false;
+	}
+
+	SetHealth(Health + HealthAmount);
+	return true;
 }
 
 void USTUHealthComponent::HealUpdate()
 {
 	SetHealth(Health + HealModifier);
 
-	if (FMath::IsNearlyEqual(Health, MaxHealth) && GetWorld())
+	if (IsHealthFull() && GetWorld())
 	{
 		GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
 	}
@@ -69,6 +82,36 @@ void USTUHealthComponent::HealUpdate()
 
 void USTUHealthComponent::SetHealth(float NewHealth)
 {
-	Health = FMath::Clamp(NewHealth, 0.f, MaxHealth);
-	OnHealthChanged.Broadcast(Health);
+	const float NextHealth = FMath::Clamp(NewHealth, 0.f, MaxHealth);
+	const float HeathDelta = NextHealth - Health;
+
+	Health = NextHealth;
+	OnHealthChanged.Broadcast(Health, HeathDelta);
+}
+
+bool USTUHealthComponent::IsHealthFull() const
+{
+	return FMath::IsNearlyEqual(Health, MaxHealth);
+}
+
+void USTUHealthComponent::PlayCameraShake()
+{
+	if (!CameraShake || IsDead())
+	{
+		return;
+	}
+
+	APawn* Player = Cast<APawn>(GetOwner());
+	if (!Player)
+	{
+		return;
+	}
+
+	APlayerController* Controller = Player->GetController<APlayerController>();
+	if (!Controller || !Controller->PlayerCameraManager)
+	{
+		return;
+	}
+
+	Controller->PlayerCameraManager->StartCameraShake(CameraShake);
 }

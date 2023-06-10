@@ -30,6 +30,7 @@ public:
 	void Reload();
 	bool GetCurrentWeaponUIData(FWeaponUIData& OutUIData) const;
 	bool GetCurrentWeaponAmmoData(FAmmoData& OutAmmoData) const;
+	bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
 
 private:
 	void SpawnWeapons();
@@ -42,7 +43,7 @@ private:
 	bool CanFire() const;
 	bool CanEquip() const;
 	bool CanReload() const;
-	void OnEmptyClip();
+	void OnClipEmpty(ASTUBaseWeapon* AmmoEmptyWeapon);
 	void ChangeClip();
 
 private:
