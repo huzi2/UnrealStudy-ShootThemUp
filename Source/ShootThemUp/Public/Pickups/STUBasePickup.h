@@ -26,6 +26,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+public:
+	bool CouldBeTaken() const;
+
 protected:
 	virtual bool GivePickupTo(APawn* PlayerPawn);
 
@@ -44,4 +47,5 @@ private:
 
 private:
 	float RotationYaw;
+	FTimerHandle RespawnTimerHandle;
 };

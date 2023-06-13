@@ -18,6 +18,9 @@ class SHOOTTHEMUP_API ASTUAICharacter : public ASTUBaseCharacter
 private:
 	ASTUAICharacter(const FObjectInitializer& ObjInit);
 
+private:
+	virtual void OnDeath() final;
+
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AI")
 	UBehaviorTree* BehaviorTreeAsset;

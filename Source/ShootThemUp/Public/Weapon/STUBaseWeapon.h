@@ -36,6 +36,8 @@ public:
 	FWeaponUIData GetUIData() const { return UIData; }
 	FAmmoData GetAmmoData() const { return CurrentAmmo; }
 	bool TryToAddAmmo(int32 ClipsAmount);
+	bool IsAmmoEmpty() const;
+	bool IsAmmoFull() const;
 
 protected:
 	bool GetPlayerViewPoint(FVector& OutViewLocation, FRotator& OutViewRotation) const;
@@ -43,10 +45,8 @@ protected:
 	void MakeHit(FHitResult& OutHitResult, const FVector& TraceStart, const FVector& TraceEnd);
 	APlayerController* GetPlayerController() const;
 	void DecreaseAmmo();
-	bool IsAmmoEmpty() const;
 	bool IsClipEmpty() const;
 	void LogAmmo();
-	bool IsAmmoFull() const;
 	UNiagaraComponent* SpawnMuzzleFX();
 
 protected:

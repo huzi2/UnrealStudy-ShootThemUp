@@ -114,15 +114,40 @@ bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
 	return true;
 }
 
+bool ASTUBaseWeapon::IsAmmoEmpty() const
+{
+	return !CurrentAmmo.Infinite && CurrentAmmo.Clips == 0 && IsClipEmpty();
+}
+
+bool ASTUBaseWeapon::IsAmmoFull() const
+{
+	return CurrentAmmo.Clips == DefaultAmmo.Clips && CurrentAmmo.Bullets == DefaultAmmo.Bullets;
+}
+
 bool ASTUBaseWeapon::GetPlayerViewPoint(FVector& OutViewLocation, FRotator& OutViewRotation) const
 {
-	APlayerController* Controller = GetPlayerController();
-	if (!Controller)
+	ACharacter* STUCharacter = Cast<ACharacter>(GetOwner());
+	if (!STUCharacter)
 	{
 		return false;
 	}
 
-	Controller->GetPlayerViewPoint(OutViewLocation, OutViewRotation);
+	if (STUCharacter->IsPlayerControlled())
+	{
+		APlayerController* Controller = GetPlayerController();
+		if (!Controller)
+		{
+			return false;
+		}
+
+		Controller->GetPlayerViewPoint(OutViewLocation, OutViewRotation);
+	}
+	else
+	{
+		OutViewLocation = GetMuzzleWorldLocation();
+		OutViewRotation = WeaponMeshComponent->GetSocketRotation(MuzzleSocketName);
+	}
+	
 	return true;
 }
 
@@ -173,11 +198,6 @@ void ASTUBaseWeapon::DecreaseAmmo()
 	}
 }
 
-bool ASTUBaseWeapon::IsAmmoEmpty() const
-{
-	return !CurrentAmmo.Infinite && CurrentAmmo.Clips == 0 && IsClipEmpty();
-}
-
 bool ASTUBaseWeapon::IsClipEmpty() const
 {
 	return CurrentAmmo.Bullets == 0;
@@ -189,11 +209,6 @@ void ASTUBaseWeapon::LogAmmo()
 	AmmoInfo += CurrentAmmo.Infinite ? TEXT("Infinite") : FString::FromInt(CurrentAmmo.Clips);
 
 	UE_LOG(LogBaseWeapon, Display, TEXT("%s"), *AmmoInfo);
-}
-
-bool ASTUBaseWeapon::IsAmmoFull() const
-{
-	return CurrentAmmo.Clips == DefaultAmmo.Clips && CurrentAmmo.Bullets == DefaultAmmo.Bullets;
 }
 
 UNiagaraComponent* ASTUBaseWeapon::SpawnMuzzleFX()

@@ -18,33 +18,45 @@ public:
 	// Sets default values for this component's properties
 	USTUWeaponComponent();
 
+public:
+	virtual void StartFire();
+	virtual void NextWeapon();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
-	void StartFire();
 	void StopFire();
-	void NextWeapon();
 	void Reload();
 	bool GetCurrentWeaponUIData(FWeaponUIData& OutUIData) const;
 	bool GetCurrentWeaponAmmoData(FAmmoData& OutAmmoData) const;
 	bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
+	bool NeedAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType) const;
+
+protected:
+	bool CanFire() const;
+	bool CanEquip() const;
+	void EquipWeapon(int32 WeaponIndex);
 
 private:
 	void SpawnWeapons();
 	void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* SceneComponent, const FName& SocketName);
-	void EquipWeapon(int32 WeaponIndex);
 	void PlayAnimMontage(UAnimMontage* Animation);
 	void InitAnimations();
 	void OnEquipFinished(USkeletalMeshComponent* MeshComponent); 
 	void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
-	bool CanFire() const;
-	bool CanEquip() const;
 	bool CanReload() const;
 	void OnClipEmpty(ASTUBaseWeapon* AmmoEmptyWeapon);
 	void ChangeClip();
+
+protected:
+	UPROPERTY()
+	ASTUBaseWeapon* CurrentWeapon;
+
+	UPROPERTY()
+	TArray<ASTUBaseWeapon*> Weapons;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
@@ -60,16 +72,12 @@ private:
 	UAnimMontage* EquipAnimMontage;
 
 	UPROPERTY()
-	ASTUBaseWeapon* CurrentWeapon;
-
-	UPROPERTY()
-	TArray<ASTUBaseWeapon*> Weapons;
-
-	UPROPERTY()
 	UAnimMontage* CurrentReloadAnimMontage;
 
-private:
+protected:
 	int32 CurrentWeaponIndex;
+
+private:
 	bool EquipAnimInProgress;
 	bool ReloadAnimInProgress;
 };

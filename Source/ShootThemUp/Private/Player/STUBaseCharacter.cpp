@@ -111,6 +111,27 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	}
 }
 
+void ASTUBaseCharacter::OnDeath()
+{
+	UE_LOG(LogBaseCharacter, Display, TEXT("Player %s is dead"), *GetName());
+
+	PlayAnimMontage(DeathAnimMontage);
+
+	GetCharacterMovement()->DisableMovement();
+	SetLifeSpan(5.f);
+
+	if (Controller)
+	{
+		Controller->ChangeState(NAME_Spectating);
+	}
+
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	WeaponComponent->StopFire();
+
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GetMesh()->SetSimulatePhysics(true);
+}
+
 bool ASTUBaseCharacter::IsRunning() const
 {
 	return bWantsToRun && bIsMovingForward && !GetVelocity().IsZero();
@@ -192,27 +213,6 @@ void ASTUBaseCharacter::OnStartRunning()
 void ASTUBaseCharacter::OnStopRunning()
 {
 	bWantsToRun = false;
-}
-
-void ASTUBaseCharacter::OnDeath()
-{
-	UE_LOG(LogBaseCharacter, Display, TEXT("Player %s is dead"), *GetName());
-
-	PlayAnimMontage(DeathAnimMontage);
-
-	GetCharacterMovement()->DisableMovement();
-	SetLifeSpan(5.f);
-
-	if (Controller)
-	{
-		Controller->ChangeState(NAME_Spectating);
-	}
-
-	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-	WeaponComponent->StopFire();
-
-	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	GetMesh()->SetSimulatePhysics(true);
 }
 
 void ASTUBaseCharacter::OnHealthChanged(float Health, float HealthDelta)

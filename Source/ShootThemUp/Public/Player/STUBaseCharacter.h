@@ -35,6 +35,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+	virtual void OnDeath();
+
 public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	bool IsRunning() const;
@@ -53,7 +56,6 @@ private:
 	void TurnAround(const FInputActionValue& Value);
 	void OnStartRunning();
 	void OnStopRunning();
-	void OnDeath();
 	void OnHealthChanged(float Health, float HealthDelta);
 
 protected:
