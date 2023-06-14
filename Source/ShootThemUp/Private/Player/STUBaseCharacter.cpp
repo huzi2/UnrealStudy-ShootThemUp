@@ -22,6 +22,7 @@ ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer& ObjInit)
 	: Super(ObjInit.SetDefaultSubobjectClass<USTUCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 	, LandedDamageVelocity(FVector2D(900.f, 1200.f))
 	, LandedDamage(FVector2D(10.f, 100.f))
+	, MeterialColorName(TEXT("Paint Color"))
 	, bWantsToRun(false)
 	, bIsMovingForward(false)
 {
@@ -165,6 +166,17 @@ void ASTUBaseCharacter::OnGroundLanded(const FHitResult& Hit)
 	const float FinalDamage = FMath::GetMappedRangeValueClamped(LandedDamageVelocity, LandedDamage, FallVelocityZ);
 	UE_LOG(LogBaseCharacter, Display, TEXT("Final Damage : %f"), FinalDamage);
 	TakeDamage(FinalDamage, FDamageEvent(), nullptr, nullptr);
+}
+
+void ASTUBaseCharacter::SetPlayerColor(const FLinearColor& Color)
+{
+	UMaterialInstanceDynamic* MaterialInst = GetMesh()->CreateAndSetMaterialInstanceDynamic(0);
+	if (!MaterialInst)
+	{
+		return;
+	}
+
+	MaterialInst->SetVectorParameterValue(MeterialColorName, Color);
 }
 
 void ASTUBaseCharacter::MoveForward(const FInputActionValue& Value)

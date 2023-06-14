@@ -73,7 +73,7 @@ void ASTUBaseWeapon::ChangeClip()
 
 	CurrentAmmo.Bullets = DefaultAmmo.Bullets;
 
-	UE_LOG(LogBaseWeapon, Display, TEXT("----- Change Clip -----"));
+	//UE_LOG(LogBaseWeapon, Display, TEXT("----- Change Clip -----"));
 }
 
 bool ASTUBaseWeapon::CanReload() const
@@ -134,7 +134,7 @@ bool ASTUBaseWeapon::GetPlayerViewPoint(FVector& OutViewLocation, FRotator& OutV
 
 	if (STUCharacter->IsPlayerControlled())
 	{
-		APlayerController* Controller = GetPlayerController();
+		APlayerController* Controller = STUCharacter->GetController<APlayerController>();
 		if (!Controller)
 		{
 			return false;
@@ -170,16 +170,6 @@ void ASTUBaseWeapon::MakeHit(FHitResult& OutHitResult, const FVector& TraceStart
 	GetWorld()->LineTraceSingleByChannel(OutHitResult, TraceStart, TraceEnd, ECollisionChannel::ECC_Visibility, CollisionParams);
 }
 
-APlayerController* ASTUBaseWeapon::GetPlayerController() const
-{
-	ACharacter* Player = Cast<ACharacter>(GetOwner());
-	if (!Player)
-	{
-		return nullptr;
-	}
-	return Player->GetController<APlayerController>();
-}
-
 void ASTUBaseWeapon::DecreaseAmmo()
 {
 	if (CurrentAmmo.Bullets == 0)
@@ -189,7 +179,7 @@ void ASTUBaseWeapon::DecreaseAmmo()
 	}
 
 	--CurrentAmmo.Bullets;
-	LogAmmo();
+	//LogAmmo();
 
 	if (IsClipEmpty() && !IsAmmoEmpty())
 	{

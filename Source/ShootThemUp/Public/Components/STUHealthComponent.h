@@ -40,6 +40,7 @@ private:
 	void SetHealth(float NewHealth);
 	bool IsHealthFull() const;
 	void PlayCameraShake();
+	void Killed(AController* KillerController);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0.0", ClampMax = "1000.0"))

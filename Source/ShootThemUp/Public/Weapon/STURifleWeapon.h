@@ -33,6 +33,7 @@ private:
 	void InitMuzzleFX();
 	void SetMuzzleFXVisibility(bool bVisble);
 	void SpawnTraceFX(const FVector& TraceStart, const FVector& TraceEnd);
+	AController* GetController() const;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")

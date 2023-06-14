@@ -49,6 +49,9 @@ private:
 	UFUNCTION()
 	void OnGroundLanded(const FHitResult& Hit);
 
+public:
+	void SetPlayerColor(const FLinearColor& Color);
+
 private:
 	void MoveForward(const FInputActionValue& Value);
 	void MoveRight(const FInputActionValue& Value);
@@ -83,6 +86,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	FVector2D LandedDamage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	FName MeterialColorName;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputMappingContext* DefaultInputMappingContext;
