@@ -7,8 +7,13 @@
 #include "UI/STUGameHUD.h"
 #include "AIController.h"
 #include "Player/STUPlayerState.h"
+#include "STUUtils.h"
+#include "Components/STURespawnComponent.h"
+#include "EngineUtils.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogSTUGameModeBase, All, All);
+
+constexpr static int32 MinRoundTimeForRespawn = 10;
 
 ASTUGameModeBase::ASTUGameModeBase()
 	: CurrentRound(1)
@@ -54,6 +59,13 @@ void ASTUGameModeBase::Killed(AController* KillerController, AController* Victim
 	{
 		VictimPlayerState->AddDeath();
 	}
+
+	StartRespawn(VictimController);
+}
+
+void ASTUGameModeBase::RespawnRequest(AController* Controller)
+{
+	ResetOnePlayer(Controller);
 }
 
 void ASTUGameModeBase::SpawnBots()
@@ -96,8 +108,7 @@ void ASTUGameModeBase::GameTimerUpdate()
 		}
 		else
 		{
-			UE_LOG(LogSTUGameModeBase, Display, TEXT("---------- GAME OVER ----------"));
-			LogPlayerInfo();
+			GameOver();
 		}
 	}
 }
@@ -204,6 +215,38 @@ void ASTUGameModeBase::LogPlayerInfo()
 			{
 				PlayerState->LogInfo();
 			}
+		}
+	}
+}
+
+void ASTUGameModeBase::StartRespawn(AController* Controller)
+{
+	const bool bRespawnAvailable = RoundCountDown > MinRoundTimeForRespawn + GameData.RespawnTime;
+	if (!bRespawnAvailable)
+	{
+		return;
+	}
+
+	USTURespawnComponent* RespawnComponent = STUUtils::GetSTUPlayerComponent<USTURespawnComponent>(Controller);
+	if (!RespawnComponent)
+	{
+		return;
+	}
+
+	RespawnComponent->Respawn(GameData.RespawnTime);
+}
+
+void ASTUGameModeBase::GameOver()
+{
+	UE_LOG(LogSTUGameModeBase, Display, TEXT("---------- GAME OVER ----------"));
+	LogPlayerInfo();
+
+	for (APawn* Pawn : TActorRange<APawn>(GetWorld()))
+	{
+		if (Pawn)
+		{
+			Pawn->TurnOff();
+			Pawn->DisableInput(nullptr);
 		}
 	}
 }

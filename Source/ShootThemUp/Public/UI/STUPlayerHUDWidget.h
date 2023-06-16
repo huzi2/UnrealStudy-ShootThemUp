@@ -24,6 +24,7 @@ protected:
 
 private:
 	void OnHealthChanged(float Health, float HealthDelta);
+	void OnNewPawn(APawn* NewPawn);
 
 protected:
 	UFUNCTION(BlueprintPure, Category = "UI")

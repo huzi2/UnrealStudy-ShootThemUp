@@ -29,6 +29,7 @@ public:
 	FGameData GetGameData() const { return GameData; }
 	int32 GetCurrentRoundNum() const { return CurrentRound; }
 	int32 GetRoundSecondsRemaining() const { return RoundCountDown; }
+	void RespawnRequest(AController* Controller);
 
 private:
 	void SpawnBots();
@@ -40,6 +41,8 @@ private:
 	FLinearColor DetermineColorByTeamID(int32 TeamID) const;
 	void SetPlayerColor(AController* Controller);
 	void LogPlayerInfo();
+	void StartRespawn(AController* Controller);
+	void GameOver();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Game")

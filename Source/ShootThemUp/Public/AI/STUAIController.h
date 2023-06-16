@@ -7,6 +7,7 @@
 #include "STUAIController.generated.h"
 
 class USTUAIPerceptionComponent;
+class USTURespawnComponent;
 /**
  * 
  */
@@ -28,6 +29,9 @@ private:
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USTUAIPerceptionComponent* STUAIPerceptionComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	USTURespawnComponent* RespawnComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	FName FocusOnKeyName;
