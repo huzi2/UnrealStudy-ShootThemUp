@@ -18,6 +18,7 @@ constexpr static int32 MinRoundTimeForRespawn = 10;
 ASTUGameModeBase::ASTUGameModeBase()
 	: CurrentRound(1)
 	, RoundCountDown(0)
+	, MatchState(ESTUMatchState::WatingToStart)
 {
 	DefaultPawnClass = ASTUBaseCharacter::StaticClass();
 	PlayerControllerClass = ASTUPlayerController::StaticClass();
@@ -34,6 +35,8 @@ void ASTUGameModeBase::StartPlay()
 
 	CurrentRound = 1;
 	StartRound();
+
+	SetMatchState(ESTUMatchState::InProgress);
 }
 
 UClass* ASTUGameModeBase::GetDefaultPawnClassForController_Implementation(AController* InController)
@@ -43,6 +46,30 @@ UClass* ASTUGameModeBase::GetDefaultPawnClassForController_Implementation(AContr
 		return AIPawnClass;
 	}
 	return Super::GetDefaultPawnClassForController_Implementation(InController);
+}
+
+bool ASTUGameModeBase::SetPause(APlayerController* PC, FCanUnpause CanUnpauseDelegate)
+{
+	const bool bPauseSet = Super::SetPause(PC, CanUnpauseDelegate);
+
+	if (bPauseSet)
+	{
+		SetMatchState(ESTUMatchState::Pause);
+	}
+
+	return bPauseSet;
+}
+
+bool ASTUGameModeBase::ClearPause()
+{
+	const bool bPauseCleared = Super::ClearPause();
+
+	if (bPauseCleared)
+	{
+		SetMatchState(ESTUMatchState::InProgress);
+	}
+
+	return bPauseCleared;
 }
 
 void ASTUGameModeBase::Killed(AController* KillerController, AController* VictimController)
@@ -156,6 +183,7 @@ void ASTUGameModeBase::CreateTeamsInfo()
 			{
 				PlayerState->SetTeamID(TeamID);
 				PlayerState->SetTeamColor(DetermineColorByTeamID(TeamID));
+				PlayerState->SetPlayerName(Controller->IsPlayerController() ? TEXT("Player") : TEXT("Bot"));
 				SetPlayerColor(Controller);
 
 				TeamID = TeamID == 1 ? 2 : 1;
@@ -249,4 +277,17 @@ void ASTUGameModeBase::GameOver()
 			Pawn->DisableInput(nullptr);
 		}
 	}
+
+	SetMatchState(ESTUMatchState::GameOver);
+}
+
+void ASTUGameModeBase::SetMatchState(ESTUMatchState State)
+{
+	if (MatchState == State)
+	{
+		return;
+	}
+
+	MatchState = State;
+	OnMatchStateChangedSignature.Broadcast(MatchState);
 }

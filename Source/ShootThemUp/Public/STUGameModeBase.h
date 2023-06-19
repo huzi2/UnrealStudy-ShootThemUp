@@ -23,6 +23,8 @@ private:
 private:
 	virtual void StartPlay() final;
 	virtual UClass* GetDefaultPawnClassForController_Implementation(AController* InController) final;
+	virtual bool SetPause(APlayerController* PC, FCanUnpause CanUnpauseDelegate = FCanUnpause()) final;
+	virtual bool ClearPause() final;
 
 public:
 	void Killed(AController* KillerController, AController* VictimController);
@@ -43,6 +45,7 @@ private:
 	void LogPlayerInfo();
 	void StartRespawn(AController* Controller);
 	void GameOver();
+	void SetMatchState(ESTUMatchState State);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Game")
@@ -53,9 +56,13 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Game")
 	FGameData GameData;
+	
+public:
+	FOnMatchStateChangedSignature OnMatchStateChangedSignature;
 
 private:
 	int32 CurrentRound;
 	int32 RoundCountDown;
 	FTimerHandle GamdRoundTimerHandle;
+	ESTUMatchState MatchState;
 };

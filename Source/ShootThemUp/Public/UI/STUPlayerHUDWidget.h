@@ -16,7 +16,7 @@ class SHOOTTHEMUP_API USTUPlayerHUDWidget : public UUserWidget
 	GENERATED_BODY()
 	
 private:
-	virtual bool Initialize() override;
+	virtual void NativeOnInitialized() override;
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "UI")
