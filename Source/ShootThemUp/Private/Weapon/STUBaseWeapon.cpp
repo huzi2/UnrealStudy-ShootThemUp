@@ -169,9 +169,6 @@ void ASTUBaseWeapon::MakeHit(FHitResult& OutHitResult, const FVector& TraceStart
 
 	//GetWorld()->LineTraceSingleByChannel(OutHitResult, TraceStart, TraceEnd, ECollisionChannel::ECC_Visibility, CollisionParams);
 	GetWorld()->LineTraceSingleByChannel(OutHitResult, TraceStart, TraceEnd, ECollisionChannel::ECC_Pawn, CollisionParams);
-
-	if (OutHitResult.GetActor())
-		UE_LOG(LogBaseWeapon, Warning, TEXT("test : %s"), *OutHitResult.GetActor()->GetName());
 }
 
 void ASTUBaseWeapon::DecreaseAmmo()

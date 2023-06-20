@@ -25,6 +25,7 @@ public:
 
 protected:
 	virtual void OnDeath();
+	virtual void OnHealthChanged(float Health, float HealthDelta);
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
@@ -39,9 +40,6 @@ private:
 
 public:
 	void SetPlayerColor(const FLinearColor& Color);
-
-private:
-	void OnHealthChanged(float Health, float HealthDelta);
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")

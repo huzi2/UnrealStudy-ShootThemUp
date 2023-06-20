@@ -7,6 +7,7 @@
 #include "STUCoreTypes.h"
 #include "STUPlayerHUDWidget.generated.h"
 
+class UProgressBar;
 /**
  * 
  */
@@ -15,6 +16,9 @@ class SHOOTTHEMUP_API USTUPlayerHUDWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+private:
+	USTUPlayerHUDWidget(const FObjectInitializer& ObjectInitializer);
+
 private:
 	virtual void NativeOnInitialized() override;
 
@@ -25,6 +29,7 @@ protected:
 private:
 	void OnHealthChanged(float Health, float HealthDelta);
 	void OnNewPawn(APawn* NewPawn);
+	void UpdateHealthBar();
 
 protected:
 	UFUNCTION(BlueprintPure, Category = "UI")
@@ -41,4 +46,23 @@ protected:
 
 	UFUNCTION(BlueprintPure, Category = "UI")
 	bool IsPlayerSpectating() const;
+
+	UFUNCTION(BlueprintPure, Category = "UI")
+	int32 GetKillsNum() const;
+
+	UFUNCTION(BlueprintPure, Category = "UI")
+	FString FormatBullets(int32 BulletsNum) const;
+
+protected:
+	UPROPERTY(meta = (BindWidget))
+	UProgressBar* HealthProgressBar;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	float PercentColorThreshold;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	FLinearColor GoodColor;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	FLinearColor BadColor;
 };

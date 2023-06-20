@@ -4,7 +4,6 @@
 #include "STUGameInstance.h"
 
 USTUGameInstance::USTUGameInstance()
-	: StartupLevelName(NAME_None)
-	, MenuLevelName(NAME_None)
+	: MenuLevelName(NAME_None)
 {
 }

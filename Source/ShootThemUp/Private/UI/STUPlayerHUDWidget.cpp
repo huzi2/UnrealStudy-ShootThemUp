@@ -5,6 +5,16 @@
 #include "Components/STUHealthComponent.h"
 #include "Components/STUWeaponComponent.h"
 #include "STUUtils.h"
+#include "Components/ProgressBar.h"
+#include "Player/STUPlayerState.h"
+
+USTUPlayerHUDWidget::USTUPlayerHUDWidget(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+	, PercentColorThreshold(0.3f)
+	, GoodColor(FLinearColor::White)
+	, BadColor(FLinearColor::Red)
+{
+}
 
 void USTUPlayerHUDWidget::NativeOnInitialized()
 {
@@ -23,6 +33,8 @@ void USTUPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
 	{
 		OnTakeDamage();
 	}
+
+	UpdateHealthBar();
 }
 
 void USTUPlayerHUDWidget::OnNewPawn(APawn* NewPawn)
@@ -32,6 +44,18 @@ void USTUPlayerHUDWidget::OnNewPawn(APawn* NewPawn)
 	{
 		HealthComponent->OnHealthChanged.AddUObject(this, &USTUPlayerHUDWidget::OnHealthChanged);
 	}
+
+	UpdateHealthBar();
+}
+
+void USTUPlayerHUDWidget::UpdateHealthBar()
+{
+	if (!HealthProgressBar)
+	{
+		return;
+	}
+
+	HealthProgressBar->SetFillColorAndOpacity(GetHealthPercent() > PercentColorThreshold ? GoodColor : BadColor);
 }
 
 float USTUPlayerHUDWidget::GetHealthPercent() const
@@ -72,4 +96,31 @@ bool USTUPlayerHUDWidget::IsPlayerSpectating() const
 {
 	APlayerController* Controlloer = GetOwningPlayer();
 	return Controlloer ? Controlloer->GetStateName() == NAME_Spectating : false;
+}
+
+int32 USTUPlayerHUDWidget::GetKillsNum() const
+{
+	APlayerController* Controlloer = GetOwningPlayer();
+	if (!Controlloer)
+	{
+		return 0;
+	}
+
+	ASTUPlayerState* PlayerState = Cast<ASTUPlayerState>(Controlloer->PlayerState);
+	return PlayerState ? PlayerState->GetKillsNum() : 0;
+}
+
+FString USTUPlayerHUDWidget::FormatBullets(int32 BulletsNum) const
+{
+	constexpr int32 MaxLen = 3;
+	constexpr TCHAR PrefixSymbol = '0';
+
+	FString BulletStr = FString::FromInt(BulletsNum);
+	const int32 SymbolsNumToAdd = MaxLen - BulletStr.Len();
+
+	if (SymbolsNumToAdd > 0)
+	{
+		BulletStr = FString::ChrN(SymbolsNumToAdd, PrefixSymbol).Append(BulletStr);
+	}
+	return BulletStr;
 }

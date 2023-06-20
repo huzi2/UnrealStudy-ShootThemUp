@@ -63,6 +63,10 @@ void ASTUBaseCharacter::OnDeath()
 	GetMesh()->SetSimulatePhysics(true);
 }
 
+void ASTUBaseCharacter::OnHealthChanged(float Health, float HealthDelta)
+{
+}
+
 bool ASTUBaseCharacter::IsRunning() const
 {
 	return false;
@@ -107,8 +111,4 @@ void ASTUBaseCharacter::SetPlayerColor(const FLinearColor& Color)
 	}
 
 	MaterialInst->SetVectorParameterValue(MeterialColorName, Color);
-}
-
-void ASTUBaseCharacter::OnHealthChanged(float Health, float HealthDelta)
-{
 }

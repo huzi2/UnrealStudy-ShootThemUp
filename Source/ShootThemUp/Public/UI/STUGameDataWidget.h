@@ -18,9 +18,6 @@ class SHOOTTHEMUP_API USTUGameDataWidget : public UUserWidget
 	
 public:
 	UFUNCTION(BlueprintPure, Category = "UI")
-	int32 GetKillsNum() const;
-
-	UFUNCTION(BlueprintPure, Category = "UI")
 	int32 GetCurrentRoundNum() const;
 
 	UFUNCTION(BlueprintPure, Category = "UI")
