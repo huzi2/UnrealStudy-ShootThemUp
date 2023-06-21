@@ -8,6 +8,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Components/HorizontalBox.h"
 #include "Menu/UI/STULevelItemWidget.h"
+#include "Sound/SoundCue.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogSTUMenuWidget, All, All);
 
@@ -28,8 +29,13 @@ void USTUMenuWidget::NativeOnInitialized()
 	InitLevelItems();
 }
 
-void USTUMenuWidget::OnStartGame()
+void USTUMenuWidget::OnAnimationFinished_Implementation(const UWidgetAnimation* Animation)
 {
+	if (Animation != HideAnimation)
+	{
+		return;
+	}
+
 	USTUGameInstance* GameInstance = GetSTUGameInstance();
 	if (!GameInstance)
 	{
@@ -37,6 +43,16 @@ void USTUMenuWidget::OnStartGame()
 	}
 
 	UGameplayStatics::OpenLevel(this, GameInstance->GetStartupLevel().LevelName);
+}
+
+void USTUMenuWidget::OnStartGame()
+{
+	PlayAnimation(HideAnimation);
+
+	if (GetWorld() && StartGameSound)
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), StartGameSound);
+	}
 }
 
 void USTUMenuWidget::OnQuitGame()

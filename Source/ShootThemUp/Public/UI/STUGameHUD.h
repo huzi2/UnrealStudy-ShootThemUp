@@ -7,6 +7,7 @@
 #include "STUCoreTypes.h"
 #include "STUGameHUD.generated.h"
 
+class USTUBaseWidget;
 /**
  * 
  */
@@ -38,8 +39,8 @@ protected:
 
 private:
 	UPROPERTY()
-	TMap<ESTUMatchState, UUserWidget*> GameWidgets;
+	TMap<ESTUMatchState, USTUBaseWidget*> GameWidgets;
 
 	UPROPERTY()
-	UUserWidget* CurrentWidget;
+	USTUBaseWidget* CurrentWidget;
 };
