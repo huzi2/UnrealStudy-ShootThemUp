@@ -46,6 +46,7 @@ private:
 	void StartRespawn(AController* Controller);
 	void GameOver();
 	void SetMatchState(ESTUMatchState State);
+	void StopAllFire();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Game")

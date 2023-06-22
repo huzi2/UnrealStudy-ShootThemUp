@@ -8,6 +8,7 @@
 
 class USTUWeaponFXComponent;
 class UNiagaraComponent;
+class UAudioComponent;
 /**
  * 
  */
@@ -27,11 +28,12 @@ private:
 	virtual void StopFire() final;
 	virtual void MakeShot() final;
 	virtual bool GetTraceData(FVector& OutTraceStart, FVector& OutTraceEnd) const final;
+	virtual void Zoom(bool bEnabled) final;
 
 private:
 	void MakeDamage(const FHitResult& HitResult);
-	void InitMuzzleFX();
-	void SetMuzzleFXVisibility(bool bVisble);
+	void InitFX();
+	void SetFXActive(bool bIsActive);
 	void SpawnTraceFX(const FVector& TraceStart, const FVector& TraceEnd);
 	AController* GetController() const;
 
@@ -51,6 +53,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	FString TraceTargetName;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	float FOVZoomAngle;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "VFX")
 	USTUWeaponFXComponent* WeaponFXComponent;
@@ -58,6 +63,10 @@ private:
 	UPROPERTY()
 	UNiagaraComponent* MuzzleFXComponent;
 
+	UPROPERTY()
+	UAudioComponent* FireAudioComponent;
+
 private:
 	FTimerHandle ShotTimerHandle;
+	float DefaultCameraFOV;
 };

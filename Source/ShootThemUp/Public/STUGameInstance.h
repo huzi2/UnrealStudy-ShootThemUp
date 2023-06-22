@@ -7,6 +7,7 @@
 #include "STUCoreTypes.h"
 #include "STUGameInstance.generated.h"
 
+class USoundClass;
 /**
  * 
  */
@@ -23,6 +24,7 @@ public:
 	void SetStartupLevel(const FLevelData& Data) { StartupLevel = Data; }
 	TArray<FLevelData> GetLevelsData() const { return LevelsData; }
 	FName GetMenuLevelName() const { return MenuLevelName; }
+	void ToggleVolume();
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Game", meta = (ToolTip = "Level names must be unique!"))
@@ -30,6 +32,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Game")
 	FName MenuLevelName;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	USoundClass* MasterSoundClass;
 
 private:
 	FLevelData StartupLevel;

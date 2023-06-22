@@ -90,6 +90,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* ReloadInputAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* ZoomInputAction;
+
 private:
 	bool bWantsToRun;
 	bool bIsMovingForward;

@@ -44,6 +44,7 @@ ASTUPlayerCharacter::ASTUPlayerCharacter(const FObjectInitializer& ObjInit)
 	FireInputAction = CreateDefaultSubobject<UInputAction>(TEXT("FireInputAction"));
 	NextWeaponInputAction = CreateDefaultSubobject<UInputAction>(TEXT("NextWeaponInputAction"));
 	ReloadInputAction = CreateDefaultSubobject<UInputAction>(TEXT("ReloadInputAction"));
+	ZoomInputAction = CreateDefaultSubobject<UInputAction>(TEXT("ZoomInputAction"));
 }
 
 void ASTUPlayerCharacter::BeginPlay()
@@ -84,6 +85,8 @@ void ASTUPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		Input->BindAction(FireInputAction, ETriggerEvent::Completed, WeaponComponent, &USTUWeaponComponent::StopFire);
 		Input->BindAction(NextWeaponInputAction, ETriggerEvent::Triggered, WeaponComponent, &USTUWeaponComponent::NextWeapon);
 		Input->BindAction(ReloadInputAction, ETriggerEvent::Triggered, WeaponComponent, &USTUWeaponComponent::Reload);
+		Input->BindAction(ZoomInputAction, ETriggerEvent::Started, WeaponComponent, &USTUWeaponComponent::Zoom, true);
+		Input->BindAction(ZoomInputAction, ETriggerEvent::Completed, WeaponComponent, &USTUWeaponComponent::Zoom, false);
 	}
 }
 

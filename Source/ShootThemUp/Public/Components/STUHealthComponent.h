@@ -31,6 +31,12 @@ private:
 	UFUNCTION()
 	void OnTakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
 
+	UFUNCTION()
+	void OnTakePointDamage(AActor* DamagedActor, float Damage, class AController* InstigatedBy, FVector HitLocation, class UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const class UDamageType* DamageType, AActor* DamageCauser);
+
+	UFUNCTION()
+	void OnTakeRadialDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, FVector Origin, FHitResult HitInfo, class AController* InstigatedBy, AActor* DamageCauser);
+
 public:
 	float GetHealth() const { return Health; }
 	bool TryToAddHealth(float HealthAmount);
@@ -41,6 +47,9 @@ private:
 	bool IsHealthFull() const;
 	void PlayCameraShake();
 	void Killed(AController* KillerController);
+	void ApplyDamage(float Damage, AController* InstigatedBy);
+	float GetPointDamageModifier(AActor* DamagedActor, const FName& BoneName);
+	void ReportDamageEvent(float Damage, AController* InstigatedBy);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0.0", ClampMax = "1000.0"))
@@ -60,6 +69,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	TSubclassOf<UCameraShakeBase> CameraShake;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health")
+	TMap<UPhysicalMaterial*, float> DamageModifiers;
 
 public:
 	FOnDeath OnDeath;

@@ -7,6 +7,8 @@
 #include "Components/TextRenderComponent.h"
 #include "Components/STUWeaponComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogBaseCharacter, All, All);
 
@@ -28,6 +30,7 @@ void ASTUBaseCharacter::BeginPlay()
 
 	check(HealthComponent);
 	check(GetCharacterMovement());
+	check(GetCapsuleComponent());
 	check(GetMesh());
 
 	OnHealthChanged(HealthComponent->GetHealth(), 0.f);
@@ -40,6 +43,20 @@ void ASTUBaseCharacter::BeginPlay()
 void ASTUBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void ASTUBaseCharacter::TurnOff()
+{
+	WeaponComponent->StopFire();
+	WeaponComponent->Zoom(false);
+	Super::TurnOff();
+}
+
+void ASTUBaseCharacter::Reset()
+{
+	WeaponComponent->StopFire();
+	WeaponComponent->Zoom(false);
+	Super::Reset();
 }
 
 void ASTUBaseCharacter::OnDeath()
@@ -58,9 +75,12 @@ void ASTUBaseCharacter::OnDeath()
 
 	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	WeaponComponent->StopFire();
+	WeaponComponent->Zoom(false);
 
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	GetMesh()->SetSimulatePhysics(true);
+
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), DeathSound, GetActorLocation());
 }
 
 void ASTUBaseCharacter::OnHealthChanged(float Health, float HealthDelta)

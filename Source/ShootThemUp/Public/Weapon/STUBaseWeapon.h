@@ -8,6 +8,7 @@
 #include "STUBaseWeapon.generated.h"
 
 class UNiagaraComponent;
+class USoundCue;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseWeapon : public AActor
@@ -23,11 +24,12 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	virtual void StartFire();
-	virtual void StopFire();
+	virtual void StartFire() {}
+	virtual void StopFire() {}
+	virtual void Zoom(bool bEnabled) {}
 
 protected:
-	virtual void MakeShot();
+	virtual void MakeShot() {}
 	virtual bool GetTraceData(FVector& OutTraceStart, FVector& OutTraceEnd) const;
 
 public:
@@ -66,6 +68,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	UNiagaraSystem* MuzzleFX;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
+	USoundCue* FireSound;
 
 public:
 	FOnClipEmptySiganature OnClipEmpty;

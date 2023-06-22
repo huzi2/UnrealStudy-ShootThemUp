@@ -28,6 +28,7 @@ private:
 private:
 	void OnPauseGame();
 	void OnMatchStateChanged(ESTUMatchState State);
+	void OnMuteSound();
 	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
@@ -36,4 +37,7 @@ protected:
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* PauseGameInputAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* MuteInputAction;
 };

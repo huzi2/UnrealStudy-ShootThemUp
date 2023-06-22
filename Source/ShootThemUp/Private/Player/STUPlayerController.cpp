@@ -4,6 +4,7 @@
 #include "Player/STUPlayerController.h"
 #include "Components/STURespawnComponent.h"
 #include "STUGameModeBase.h"
+#include "STUGameInstance.h"
 
 #include "EnhancedInputComponent.h"
 
@@ -12,6 +13,7 @@ ASTUPlayerController::ASTUPlayerController()
 	RespawnComponent = CreateDefaultSubobject<USTURespawnComponent>(TEXT("RespawnComponent"));
 
 	PauseGameInputAction = CreateDefaultSubobject<UInputAction>(TEXT("PauseGameInputAction"));
+	MuteInputAction = CreateDefaultSubobject<UInputAction>(TEXT("MuteInputAction"));
 }
 
 void ASTUPlayerController::BeginPlay()
@@ -42,6 +44,7 @@ void ASTUPlayerController::SetupInputComponent()
 	if (UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(InputComponent))
 	{
 		Input->BindAction(PauseGameInputAction, ETriggerEvent::Triggered, this, &ASTUPlayerController::OnPauseGame);
+		Input->BindAction(MuteInputAction, ETriggerEvent::Triggered, this, &ASTUPlayerController::OnMuteSound);
 	}
 }
 
@@ -67,4 +70,20 @@ void ASTUPlayerController::OnMatchStateChanged(ESTUMatchState State)
 		SetInputMode(FInputModeUIOnly());
 		bShowMouseCursor = true;
 	}
+}
+
+void ASTUPlayerController::OnMuteSound()
+{
+	if (!GetWorld())
+	{
+		return;
+	}
+	
+	USTUGameInstance* STUGameInstance = GetWorld()->GetGameInstance<USTUGameInstance>();
+	if (!STUGameInstance)
+	{
+		return;
+	}
+
+	STUGameInstance->ToggleVolume();
 }

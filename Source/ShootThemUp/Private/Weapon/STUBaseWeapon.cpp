@@ -32,18 +32,6 @@ void ASTUBaseWeapon::BeginPlay()
 	CurrentAmmo = DefaultAmmo;
 }
 
-void ASTUBaseWeapon::StartFire()
-{
-}
-
-void ASTUBaseWeapon::StopFire()
-{
-}
-
-void ASTUBaseWeapon::MakeShot()
-{
-}
-
 bool ASTUBaseWeapon::GetTraceData(FVector& OutTraceStart, FVector& OutTraceEnd) const
 {
 	FVector ViewLocation;
