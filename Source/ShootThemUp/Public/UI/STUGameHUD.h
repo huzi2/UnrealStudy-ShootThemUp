@@ -20,12 +20,12 @@ private:
 	ASTUGameHUD();
 	
 private:
-	virtual void BeginPlay() override;
+	virtual void BeginPlay() final;
 	virtual void DrawHUD() final;
 
 private:
 	void DrawCrossHair();
-	void OnMatchStateChanged(ESTUMatchState State);
+	void OnMatchStateChanged(const ESTUMatchState State);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")

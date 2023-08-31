@@ -14,6 +14,8 @@ ASTUAICharacter::ASTUAICharacter(const FObjectInitializer& ObjInit)
 	: Super(ObjInit.SetDefaultSubobjectClass<USTUAIWeaponComponent>(TEXT("WeaponComponent")))
 	, HealthVisibilityDistance(1000.f)
 {
+	PrimaryActorTick.bCanEverTick = true;
+
 	AutoPossessAI = EAutoPossessAI::Disabled;
 	AIControllerClass = ASTUAIController::StaticClass();
 
@@ -55,25 +57,19 @@ void ASTUAICharacter::OnDeath()
 	}
 }
 
-void ASTUAICharacter::OnHealthChanged(float Health, float HealthDelta)
+void ASTUAICharacter::OnHealthChanged(const float Health, const float HealthDelta)
 {
 	Super::OnHealthChanged(Health, HealthDelta);
 
 	USTUHealthBarWidget* HealthBarWidget = Cast<USTUHealthBarWidget>(HealthWidgetComponent->GetUserWidgetObject());
-	if (!HealthBarWidget)
-	{
-		return;
-	}
+	if (!HealthBarWidget) return;
 
 	HealthBarWidget->SetHealthPercent(HealthComponent->GetHealthPercent());
 }
 
 void ASTUAICharacter::UpdateHealthWidgetVisibility()
 {
-	if (!GetWorld() || !GetWorld()->GetFirstPlayerController() || !GetWorld()->GetFirstPlayerController()->GetPawnOrSpectator() || !HealthWidgetComponent)
-	{
-		return;
-	}
+	if (!GetWorld() || !GetWorld()->GetFirstPlayerController() || !GetWorld()->GetFirstPlayerController()->GetPawnOrSpectator() || !HealthWidgetComponent) return;
 
 	const FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawnOrSpectator()->GetActorLocation();
 	const float Distance = FVector::Distance(PlayerLocation, GetActorLocation());

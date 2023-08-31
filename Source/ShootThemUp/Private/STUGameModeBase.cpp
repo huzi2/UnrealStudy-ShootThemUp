@@ -58,7 +58,6 @@ bool ASTUGameModeBase::SetPause(APlayerController* PC, FCanUnpause CanUnpauseDel
 		StopAllFire();
 		SetMatchState(ESTUMatchState::Pause);
 	}
-
 	return bPauseSet;
 }
 
@@ -70,7 +69,6 @@ bool ASTUGameModeBase::ClearPause()
 	{
 		SetMatchState(ESTUMatchState::InProgress);
 	}
-
 	return bPauseCleared;
 }
 
@@ -99,12 +97,9 @@ void ASTUGameModeBase::RespawnRequest(AController* Controller)
 
 void ASTUGameModeBase::SpawnBots()
 {
-	if (!GetWorld())
-	{
-		return;
-	}
+	if (!GetWorld()) return;
 
-	int32 Num = GameData.PlayersNum - 1;
+	const int32 Num = GameData.PlayersNum - 1;
 	for (int32 i = 0; i < Num; ++i)
 	{
 		FActorSpawnParameters SpawnInfo;
@@ -144,10 +139,7 @@ void ASTUGameModeBase::GameTimerUpdate()
 
 void ASTUGameModeBase::ResetPlayers()
 {
-	if (!GetWorld())
-	{
-		return;
-	}
+	if (!GetWorld()) return;
 
 	for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
 	{
@@ -168,10 +160,7 @@ void ASTUGameModeBase::ResetOnePlayer(AController* Controller)
 
 void ASTUGameModeBase::CreateTeamsInfo()
 {
-	if (!GetWorld())
-	{
-		return;
-	}
+	if (!GetWorld()) return;
 
 	int32 TeamID = 1;
 
@@ -194,7 +183,7 @@ void ASTUGameModeBase::CreateTeamsInfo()
 	}
 }
 
-FLinearColor ASTUGameModeBase::DetermineColorByTeamID(int32 TeamID) const
+FLinearColor ASTUGameModeBase::DetermineColorByTeamID(const int32 TeamID) const
 {
 	if (TeamID - 1 < GameData.TeamColors.Num())
 	{
@@ -202,38 +191,25 @@ FLinearColor ASTUGameModeBase::DetermineColorByTeamID(int32 TeamID) const
 	}
 
 	UE_LOG(LogSTUGameModeBase, Warning, TEXT("No color for team id : %i, set to default : %s"), TeamID, *GameData.DefaultTeamColor.ToString());
-
 	return GameData.DefaultTeamColor;
 }
 
 void ASTUGameModeBase::SetPlayerColor(AController* Controller)
 {
-	if (!Controller)
-	{
-		return;
-	}
+	if (!Controller) return;
 
 	ASTUBaseCharacter* Character = Cast<ASTUBaseCharacter>(Controller->GetPawn());
-	if (!Character)
-	{
-		return;
-	}
+	if (!Character) return;
 
 	ASTUPlayerState* PlayerState = Cast<ASTUPlayerState>(Controller->PlayerState);
-	if (!PlayerState)
-	{
-		return;
-	}
+	if (!PlayerState) return;
 
 	Character->SetPlayerColor(PlayerState->GetTeamColor());
 }
 
 void ASTUGameModeBase::LogPlayerInfo()
 {
-	if (!GetWorld())
-	{
-		return;
-	}
+	if (!GetWorld()) return;
 
 	for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
 	{
@@ -252,16 +228,10 @@ void ASTUGameModeBase::LogPlayerInfo()
 void ASTUGameModeBase::StartRespawn(AController* Controller)
 {
 	const bool bRespawnAvailable = RoundCountDown > MinRoundTimeForRespawn + GameData.RespawnTime;
-	if (!bRespawnAvailable)
-	{
-		return;
-	}
+	if (!bRespawnAvailable) return;
 
 	USTURespawnComponent* RespawnComponent = STUUtils::GetSTUPlayerComponent<USTURespawnComponent>(Controller);
-	if (!RespawnComponent)
-	{
-		return;
-	}
+	if (!RespawnComponent) return;
 
 	RespawnComponent->Respawn(GameData.RespawnTime);
 }
@@ -283,12 +253,9 @@ void ASTUGameModeBase::GameOver()
 	SetMatchState(ESTUMatchState::GameOver);
 }
 
-void ASTUGameModeBase::SetMatchState(ESTUMatchState State)
+void ASTUGameModeBase::SetMatchState(const ESTUMatchState State)
 {
-	if (MatchState == State)
-	{
-		return;
-	}
+	if (MatchState == State) return;
 
 	MatchState = State;
 	OnMatchStateChangedSignature.Broadcast(MatchState);

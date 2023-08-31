@@ -6,15 +6,8 @@
 
 void USTUAIWeaponComponent::StartFire()
 {
-	if (!CanFire())
-	{
-		return;
-	}
-
-	if (!CurrentWeapon)
-	{
-		return;
-	}
+	if (!CanFire()) return;
+	if (!CurrentWeapon) return;
 
 	if (CurrentWeapon->IsAmmoEmpty())
 	{
@@ -28,10 +21,7 @@ void USTUAIWeaponComponent::StartFire()
 
 void USTUAIWeaponComponent::NextWeapon()
 {
-	if (!CanEquip())
-	{
-		return;
-	}
+	if (!CanEquip()) return;
 
 	int32 NextIndex = (CurrentWeaponIndex + 1) % Weapons.Num();
 	while (NextIndex != CurrentWeaponIndex)

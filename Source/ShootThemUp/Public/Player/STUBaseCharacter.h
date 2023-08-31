@@ -15,25 +15,23 @@ class SHOOTTHEMUP_API ASTUBaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-public:
+protected:
 	ASTUBaseCharacter(const FObjectInitializer& ObjInit);
 
 protected:
 	virtual void BeginPlay() override;
-
-public:	
-	virtual void Tick(float DeltaTime) override;
 	virtual void TurnOff() override;
 	virtual void Reset() override;
 
 protected:
 	virtual void OnDeath();
-	virtual void OnHealthChanged(float Health, float HealthDelta);
+	virtual void OnHealthChanged(const float Health, const float HealthDelta);
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	virtual bool IsRunning() const;
 
+public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	float GetMovementDirection() const;
 

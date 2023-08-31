@@ -19,7 +19,7 @@ private:
 	USTUHealthBarWidget(const FObjectInitializer& ObjectInitializer);
 
 public:
-	void SetHealthPercent(float Percent);
+	void SetHealthPercent(const float Percent);
 	
 protected:
 	UPROPERTY(meta = (BindWidget))

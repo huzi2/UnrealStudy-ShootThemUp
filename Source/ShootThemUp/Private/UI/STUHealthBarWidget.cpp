@@ -13,12 +13,9 @@ USTUHealthBarWidget::USTUHealthBarWidget(const FObjectInitializer& ObjectInitial
 {
 }
 
-void USTUHealthBarWidget::SetHealthPercent(float Percent)
+void USTUHealthBarWidget::SetHealthPercent(const float Percent)
 {
-	if (!HealthProgressBar)
-	{
-		return;
-	}
+	if (!HealthProgressBar) return;
 
 	const ESlateVisibility HealthBarVisibility = (Percent > PercentVisibilityThreshold || FMath::IsNearlyZero(Percent)) ? ESlateVisibility::Hidden : ESlateVisibility::Visible;
 	HealthProgressBar->SetVisibility(HealthBarVisibility);

@@ -14,32 +14,30 @@ class SHOOTTHEMUP_API USTUWeaponComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
+protected:
 	USTUWeaponComponent();
+
+private:
+	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
 	virtual void StartFire();
 	virtual void NextWeapon();
-
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
 	void StopFire();
 	void Reload();
 	bool GetCurrentWeaponUIData(FWeaponUIData& OutUIData) const;
 	bool GetCurrentWeaponAmmoData(FAmmoData& OutAmmoData) const;
-	bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
+	bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, const int32 ClipsAmount);
 	bool NeedAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType) const;
-	void Zoom(bool bEnabled);
+	void Zoom(const bool bEnabled);
 
 protected:
 	bool CanFire() const;
 	bool CanEquip() const;
-	void EquipWeapon(int32 WeaponIndex);
+	void EquipWeapon(const int32 WeaponIndex);
 
 private:
 	void SpawnWeapons();

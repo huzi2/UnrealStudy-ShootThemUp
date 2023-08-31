@@ -16,7 +16,7 @@ class SHOOTTHEMUP_API USTUPauseWidget : public USTUBaseWidget
 	GENERATED_BODY()
 	
 private:
-	virtual void NativeOnInitialized() override;
+	virtual void NativeOnInitialized() final;
 
 private:
 	UFUNCTION()

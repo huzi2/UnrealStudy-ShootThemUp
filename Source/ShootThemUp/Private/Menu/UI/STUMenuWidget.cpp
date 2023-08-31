@@ -31,16 +31,10 @@ void USTUMenuWidget::NativeOnInitialized()
 
 void USTUMenuWidget::OnAnimationFinished_Implementation(const UWidgetAnimation* Animation)
 {
-	if (Animation != HideAnimation)
-	{
-		return;
-	}
+	if (Animation != HideAnimation) return;
 
 	USTUGameInstance* GameInstance = GetSTUGameInstance();
-	if (!GameInstance)
-	{
-		return;
-	}
+	if (!GameInstance) return;
 
 	UGameplayStatics::OpenLevel(this, GameInstance->GetStartupLevel().LevelName);
 }
@@ -63,27 +57,18 @@ void USTUMenuWidget::OnQuitGame()
 void USTUMenuWidget::InitLevelItems()
 {
 	USTUGameInstance* GameInstance = GetSTUGameInstance();
-	if (!GameInstance)
-	{
-		return;
-	}
+	if (!GameInstance) return;
 
 	checkf(GameInstance->GetLevelsData().Num() != 0, TEXT("Levels data must not be empty!"));
 
-	if (!LevelItemsBox)
-	{
-		return;
-	}
+	if (!LevelItemsBox) return;
 
 	LevelItemsBox->ClearChildren();
 
 	for (const FLevelData& LevelData : GameInstance->GetLevelsData())
 	{
 		USTULevelItemWidget* LevelItemWidget = CreateWidget<USTULevelItemWidget>(GetWorld(), LevelItemWidgetClass);
-		if (!LevelItemWidget)
-		{
-			continue;
-		}
+		if (!LevelItemWidget) continue;
 
 		LevelItemWidget->SetLevelData(LevelData);
 		LevelItemWidget->OnLevelSelected.AddUObject(this, &USTUMenuWidget::OnLevelSelected);
@@ -105,10 +90,7 @@ void USTUMenuWidget::InitLevelItems()
 void USTUMenuWidget::OnLevelSelected(const FLevelData& Data)
 {
 	USTUGameInstance* GameInstance = GetSTUGameInstance();
-	if (!GameInstance)
-	{
-		return;
-	}
+	if (!GameInstance) return;
 
 	GameInstance->SetStartupLevel(Data);
 
@@ -124,9 +106,6 @@ void USTUMenuWidget::OnLevelSelected(const FLevelData& Data)
 
 USTUGameInstance* USTUMenuWidget::GetSTUGameInstance() const
 {
-	if (!GetWorld())
-	{
-		return nullptr;
-	}
+	if (!GetWorld()) return nullptr;
 	return GetWorld()->GetGameInstance<USTUGameInstance>();
 }

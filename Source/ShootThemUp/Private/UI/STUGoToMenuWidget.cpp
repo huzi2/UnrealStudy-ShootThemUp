@@ -20,16 +20,10 @@ void USTUGoToMenuWidget::NativeOnInitialized()
 
 void USTUGoToMenuWidget::OnToToMenu()
 {
-	if (!GetWorld())
-	{
-		return;
-	}
+	if (!GetWorld()) return;
 
 	USTUGameInstance* GameInstance = GetWorld()->GetGameInstance<USTUGameInstance>();
-	if (!GameInstance)
-	{
-		return;
-	}
+	if (!GameInstance) return;
 
 	if (GameInstance->GetMenuLevelName().IsNone())
 	{

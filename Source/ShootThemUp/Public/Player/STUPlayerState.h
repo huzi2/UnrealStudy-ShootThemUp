@@ -18,16 +18,16 @@ private:
 	ASTUPlayerState();
 
 public:
-	void SetTeamID(int32 ID) { TeamID = ID; }
-	void SetTeamColor(const FLinearColor& Color) { TeamColor = Color; }
+	FORCEINLINE void SetTeamID(const int32 ID) { TeamID = ID; }
+	FORCEINLINE void SetTeamColor(const FLinearColor& Color) { TeamColor = Color; }
 
-	int32 GetTeamID() const{ return TeamID; }
-	FLinearColor GetTeamColor() const{ return TeamColor; }
-	int32 GetKillsNum() const { return KillsNum; }
-	int32 GetDeathsNum() const { return DeathsNum; }
+	FORCEINLINE int32 GetTeamID() const{ return TeamID; }
+	FORCEINLINE FLinearColor GetTeamColor() const{ return TeamColor; }
+	FORCEINLINE int32 GetKillsNum() const { return KillsNum; }
+	FORCEINLINE int32 GetDeathsNum() const { return DeathsNum; }
 
-	void AddKill() { ++KillsNum; }
-	void AddDeath() { ++DeathsNum; }
+	FORCEINLINE void AddKill() { ++KillsNum; }
+	FORCEINLINE void AddDeath() { ++DeathsNum; }
 
 	void LogInfo();
 

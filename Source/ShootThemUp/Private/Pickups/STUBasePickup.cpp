@@ -8,12 +8,10 @@
 
 DEFINE_LOG_CATEGORY_STATIC(LogBasePickup, All, All);
 
-// Sets default values
 ASTUBasePickup::ASTUBasePickup()
 	: RespawnTime(5.f)
 	, RotationYaw(0.f)
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComponent"));
@@ -23,7 +21,6 @@ ASTUBasePickup::ASTUBasePickup()
 	SetRootComponent(CollisionComponent);
 }
 
-// Called when the game starts or when spawned
 void ASTUBasePickup::BeginPlay()
 {
 	Super::BeginPlay();
@@ -44,7 +41,6 @@ void ASTUBasePickup::NotifyActorBeginOverlap(AActor* OtherActor)
 	}
 }
 
-// Called every frame
 void ASTUBasePickup::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

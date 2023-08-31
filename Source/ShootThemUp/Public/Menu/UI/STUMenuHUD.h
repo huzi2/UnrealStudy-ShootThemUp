@@ -15,7 +15,7 @@ class SHOOTTHEMUP_API ASTUMenuHUD : public AHUD
 	GENERATED_BODY()
 
 private:
-	virtual void BeginPlay() override;
+	virtual void BeginPlay() final;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")

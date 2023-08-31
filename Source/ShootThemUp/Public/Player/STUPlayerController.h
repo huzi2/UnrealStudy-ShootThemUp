@@ -21,13 +21,13 @@ private:
 	ASTUPlayerController();
 
 private:
-	virtual void BeginPlay() override;
-	virtual void OnPossess(APawn* InPawn) override;
-	virtual void SetupInputComponent() override;
+	virtual void BeginPlay() final;
+	virtual void OnPossess(APawn* InPawn) final;
+	virtual void SetupInputComponent() final;
 
 private:
 	void OnPauseGame();
-	void OnMatchStateChanged(ESTUMatchState State);
+	void OnMatchStateChanged(const ESTUMatchState State);
 	void OnMuteSound();
 	
 protected:

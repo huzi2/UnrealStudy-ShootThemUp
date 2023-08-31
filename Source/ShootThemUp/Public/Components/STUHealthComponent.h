@@ -12,12 +12,10 @@ class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
+private:
 	USTUHealthComponent();
 
-protected:
-	// Called when the game starts
+private:
 	virtual void BeginPlay() override;
 
 public:
@@ -38,18 +36,18 @@ private:
 	void OnTakeRadialDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, FVector Origin, FHitResult HitInfo, class AController* InstigatedBy, AActor* DamageCauser);
 
 public:
-	float GetHealth() const { return Health; }
-	bool TryToAddHealth(float HealthAmount);
+	FORCEINLINE float GetHealth() const { return Health; }
+	bool TryToAddHealth(const float HealthAmount);
 
 private:
 	void HealUpdate();
-	void SetHealth(float NewHealth);
+	void SetHealth(const float NewHealth);
 	bool IsHealthFull() const;
 	void PlayCameraShake();
 	void Killed(AController* KillerController);
-	void ApplyDamage(float Damage, AController* InstigatedBy);
+	void ApplyDamage(const float Damage, AController* InstigatedBy);
 	float GetPointDamageModifier(AActor* DamagedActor, const FName& BoneName);
-	void ReportDamageEvent(float Damage, AController* InstigatedBy);
+	void ReportDamageEvent(const float Damage, AController* InstigatedBy);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0.0", ClampMax = "1000.0"))

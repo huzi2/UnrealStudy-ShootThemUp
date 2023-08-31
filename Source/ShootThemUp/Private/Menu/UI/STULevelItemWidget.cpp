@@ -53,7 +53,7 @@ void USTULevelItemWidget::SetLevelData(const FLevelData& Data)
 	}
 }
 
-void USTULevelItemWidget::SetSelected(bool bIsSelected)
+void USTULevelItemWidget::SetSelected(const bool bIsSelected)
 {
 	if (LevelImage)
 	{

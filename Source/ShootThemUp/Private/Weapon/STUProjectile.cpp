@@ -6,14 +6,12 @@
 #include "Kismet/GameplayStatics.h"
 #include "Weapon/Components/STUWeaponFXComponent.h"
 
-// Sets default values
 ASTUProjectile::ASTUProjectile()
 	: DamageRadius(200.f)
 	, DamageAmount(50.f)
 	, bDoFullDamage(false)
 	, LifeSeconds(5.f)
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComponent"));
@@ -30,7 +28,6 @@ ASTUProjectile::ASTUProjectile()
 	WeaponFXComponent = CreateDefaultSubobject<USTUWeaponFXComponent>(TEXT("WeaponFXComponent"));
 }
 
-// Called when the game starts or when spawned
 void ASTUProjectile::BeginPlay()
 {
 	Super::BeginPlay();
@@ -47,10 +44,7 @@ void ASTUProjectile::BeginPlay()
 
 void ASTUProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (!GetWorld())
-	{
-		return;
-	}
+	if (!GetWorld()) return;
 
 	MovementComponent->StopMovementImmediately();
 

@@ -20,10 +20,10 @@ private:
 	USTUGameInstance();
 
 public:
-	FLevelData GetStartupLevel() const { return StartupLevel; }
+	const FLevelData& GetStartupLevel() const { return StartupLevel; }
 	void SetStartupLevel(const FLevelData& Data) { StartupLevel = Data; }
-	TArray<FLevelData> GetLevelsData() const { return LevelsData; }
-	FName GetMenuLevelName() const { return MenuLevelName; }
+	const TArray<FLevelData>& GetLevelsData() const { return LevelsData; }
+	const FName& GetMenuLevelName() const { return MenuLevelName; }
 	void ToggleVolume();
 
 private:

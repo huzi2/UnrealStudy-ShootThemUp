@@ -18,7 +18,7 @@ void UEnvQueryTest_PickupCouldBeTaken::RunTest(FEnvQueryInstance& QueryInstance)
 	UObject* DataOwner = QueryInstance.Owner.Get();
 	BoolValue.BindData(DataOwner, QueryInstance.QueryID);
 
-	bool bWantsBeTaken = BoolValue.GetValue();
+	const bool bWantsBeTaken = BoolValue.GetValue();
 
 	for (FEnvQueryInstance::ItemIterator It(this, QueryInstance); It; ++It)
 	{
@@ -26,7 +26,7 @@ void UEnvQueryTest_PickupCouldBeTaken::RunTest(FEnvQueryInstance& QueryInstance)
 		ASTUBasePickup* PickupActor = Cast<ASTUBasePickup>(ItemActor);
 		if (PickupActor)
 		{
-			bool bCouldBeTaken = PickupActor->CouldBeTaken();
+			const bool bCouldBeTaken = PickupActor->CouldBeTaken();
 			It.SetScore(TestPurpose, FilterType, bCouldBeTaken, bWantsBeTaken);
 		}
 	}

@@ -8,7 +8,6 @@
 #include "STUGameModeBase.generated.h"
 
 class AAIController;
-
 /**
  * 
  */
@@ -28,9 +27,9 @@ private:
 
 public:
 	void Killed(AController* KillerController, AController* VictimController);
-	FGameData GetGameData() const { return GameData; }
-	int32 GetCurrentRoundNum() const { return CurrentRound; }
-	int32 GetRoundSecondsRemaining() const { return RoundCountDown; }
+	const FGameData& GetGameData() const { return GameData; }
+	FORCEINLINE int32 GetCurrentRoundNum() const { return CurrentRound; }
+	FORCEINLINE int32 GetRoundSecondsRemaining() const { return RoundCountDown; }
 	void RespawnRequest(AController* Controller);
 
 private:
@@ -40,12 +39,12 @@ private:
 	void ResetPlayers();
 	void ResetOnePlayer(AController* Controller);
 	void CreateTeamsInfo();
-	FLinearColor DetermineColorByTeamID(int32 TeamID) const;
+	FLinearColor DetermineColorByTeamID(const int32 TeamID) const;
 	void SetPlayerColor(AController* Controller);
 	void LogPlayerInfo();
 	void StartRespawn(AController* Controller);
 	void GameOver();
-	void SetMatchState(ESTUMatchState State);
+	void SetMatchState(const ESTUMatchState State);
 	void StopAllFire();
 
 protected:

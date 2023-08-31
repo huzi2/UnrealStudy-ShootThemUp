@@ -15,8 +15,7 @@ class SHOOTTHEMUP_API USTUWeaponFXComponent : public UActorComponent
 {
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
+private:
 	USTUWeaponFXComponent();
 
 public:

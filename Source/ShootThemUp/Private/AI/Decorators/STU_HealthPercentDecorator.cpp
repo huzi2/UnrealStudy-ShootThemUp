@@ -17,16 +17,10 @@ bool USTU_HealthPercentDecorator::CalculateRawConditionValue(UBehaviorTreeCompon
 	Super::CalculateRawConditionValue(OwnerComp, NodeMemory);
 
 	AAIController* Controller = OwnerComp.GetAIOwner();
-	if (!Controller)
-	{
-		return false;
-	}
+	if (!Controller) return false;
 
 	USTUHealthComponent* HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(Controller->GetPawn());
-	if (!HealthComponent || HealthComponent->IsDead())
-	{
-		return false;
-	}
+	if (!HealthComponent || HealthComponent->IsDead()) return false;
 
 	return HealthComponent->GetHealthPercent() <= HealthPercent;
 }

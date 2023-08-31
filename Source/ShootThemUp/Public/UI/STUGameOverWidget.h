@@ -18,14 +18,14 @@ class SHOOTTHEMUP_API USTUGameOverWidget : public USTUBaseWidget
 	GENERATED_BODY()
 	
 private:
-	virtual void NativeOnInitialized() override;
+	virtual void NativeOnInitialized() final;
 
 private:
 	UFUNCTION()
 	void OnResetLevel();
 
 private:
-	void OnMatchStateChanged(ESTUMatchState State);
+	void OnMatchStateChanged(const ESTUMatchState State);
 	void UpdatePlayersStat();
 
 protected:

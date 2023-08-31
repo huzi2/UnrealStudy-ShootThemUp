@@ -12,13 +12,13 @@ class SHOOTTHEMUP_API USTURespawnComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+private:
 	USTURespawnComponent();
 
 public:
-	int32 GetRespawnCountDown() const { return RespawnCountDown; }
+	FORCEINLINE int32 GetRespawnCountDown() const { return RespawnCountDown; }
 
-	void Respawn(int32 RespawnTime);
+	void Respawn(const int32 RespawnTime);
 	bool IsRespawnInProgress() const;
 
 private:

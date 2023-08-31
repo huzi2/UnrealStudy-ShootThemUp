@@ -21,7 +21,7 @@ public:
 	void SetKills(const FText& Text);
 	void SetDeaths(const FText& Text);
 	void SetTeam(const FText& Text);
-	void SetPlayerIndicatorVisibility(bool Visible);
+	void SetPlayerIndicatorVisibility(const bool Visible);
 	void SetTeamColor(const FLinearColor& Color);
 	
 protected:

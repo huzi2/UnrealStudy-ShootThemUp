@@ -17,16 +17,10 @@ void USTUChangeWeaponService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 
 	AAIController* Controller = OwnerComp.GetAIOwner();
-	if (!Controller)
-	{
-		return;
-	}
+	if (!Controller) return;
 
 	USTUWeaponComponent* WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Controller->GetPawn());
-	if (!WeaponComponent)
-	{
-		return;
-	}
+	if (!WeaponComponent) return;
 
 	if (Probability > 0.f && FMath::FRand() <= Probability)
 	{

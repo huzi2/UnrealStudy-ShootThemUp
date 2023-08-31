@@ -27,7 +27,7 @@ void USTUPlayerHUDWidget::NativeOnInitialized()
 	}
 }
 
-void USTUPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
+void USTUPlayerHUDWidget::OnHealthChanged(const float Health, const float HealthDelta)
 {
 	if (HealthDelta < 0.f)
 	{
@@ -55,10 +55,7 @@ void USTUPlayerHUDWidget::OnNewPawn(APawn* NewPawn)
 
 void USTUPlayerHUDWidget::UpdateHealthBar()
 {
-	if (!HealthProgressBar)
-	{
-		return;
-	}
+	if (!HealthProgressBar) return;
 
 	HealthProgressBar->SetFillColorAndOpacity(GetHealthPercent() > PercentColorThreshold ? GoodColor : BadColor);
 }
@@ -72,23 +69,13 @@ float USTUPlayerHUDWidget::GetHealthPercent() const
 bool USTUPlayerHUDWidget::GetCurrentWeaponUIData(FWeaponUIData& OutUIData) const
 {
 	USTUWeaponComponent* WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(GetOwningPlayerPawn());
-	if (!WeaponComponent)
-	{
-		return false;
-	}
-
-	return WeaponComponent->GetCurrentWeaponUIData(OutUIData);
+	return WeaponComponent ? WeaponComponent->GetCurrentWeaponUIData(OutUIData) : false;
 }
 
 bool USTUPlayerHUDWidget::GetCurrentWeaponAmmoData(FAmmoData& OutAmmoData) const
 {
 	USTUWeaponComponent* WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(GetOwningPlayerPawn());
-	if (!WeaponComponent)
-	{
-		return false;
-	}
-
-	return WeaponComponent->GetCurrentWeaponAmmoData(OutAmmoData);
+	return WeaponComponent ? WeaponComponent->GetCurrentWeaponAmmoData(OutAmmoData) : false;
 }
 
 bool USTUPlayerHUDWidget::IsPlayerAlive() const
@@ -106,16 +93,13 @@ bool USTUPlayerHUDWidget::IsPlayerSpectating() const
 int32 USTUPlayerHUDWidget::GetKillsNum() const
 {
 	APlayerController* Controlloer = GetOwningPlayer();
-	if (!Controlloer)
-	{
-		return 0;
-	}
+	if (!Controlloer) return 0;
 
 	ASTUPlayerState* PlayerState = Cast<ASTUPlayerState>(Controlloer->PlayerState);
 	return PlayerState ? PlayerState->GetKillsNum() : 0;
 }
 
-FString USTUPlayerHUDWidget::FormatBullets(int32 BulletsNum) const
+FString USTUPlayerHUDWidget::FormatBullets(const int32 BulletsNum) const
 {
 	constexpr int32 MaxLen = 3;
 	constexpr TCHAR PrefixSymbol = '0';

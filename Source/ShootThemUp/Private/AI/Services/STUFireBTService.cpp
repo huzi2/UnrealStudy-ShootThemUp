@@ -17,22 +17,13 @@ void USTUFireBTService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 
 	AAIController* Controller = OwnerComp.GetAIOwner();
-	if (!Controller)
-	{
-		return;
-	}
+	if (!Controller) return;
 
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
-	if (!Blackboard)
-	{
-		return;
-	}
+	if (!Blackboard) return;
 
 	USTUWeaponComponent* WeanponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Controller->GetPawn());
-	if (!WeanponComponent)
-	{
-		return;
-	}
+	if (!WeanponComponent) return;
 
 	UObject* HasAim = Blackboard->GetValueAsObject(EnemyActorKey.SelectedKeyName);
 	HasAim ? WeanponComponent->StartFire() : WeanponComponent->StopFire();

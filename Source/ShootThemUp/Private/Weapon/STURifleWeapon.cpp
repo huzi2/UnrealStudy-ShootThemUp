@@ -88,7 +88,7 @@ bool ASTURifleWeapon::GetTraceData(FVector& OutTraceStart, FVector& OutTraceEnd)
 	return true;
 }
 
-void ASTURifleWeapon::Zoom(bool bEnabled)
+void ASTURifleWeapon::Zoom(const bool bEnabled)
 {
 	APlayerController* Controller = Cast<APlayerController>(GetController());
 	if (!Controller || !Controller->PlayerCameraManager)
@@ -133,7 +133,7 @@ void ASTURifleWeapon::InitFX()
 	SetFXActive(true);
 }
 
-void ASTURifleWeapon::SetFXActive(bool bIsActive)
+void ASTURifleWeapon::SetFXActive(const bool bIsActive)
 {
 	if (MuzzleFXComponent)
 	{

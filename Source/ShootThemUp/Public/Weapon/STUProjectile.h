@@ -15,12 +15,10 @@ class SHOOTTHEMUP_API ASTUProjectile : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
+private:
 	ASTUProjectile();
 
-protected:
-	// Called when the game starts or when spawned
+private:
 	virtual void BeginPlay() override;
 
 private:

@@ -16,7 +16,7 @@ class SHOOTTHEMUP_API USTUGoToMenuWidget : public UUserWidget
 	GENERATED_BODY()
 	
 private:
-	virtual void NativeOnInitialized() override;
+	virtual void NativeOnInitialized() final;
 
 private:
 	UFUNCTION()

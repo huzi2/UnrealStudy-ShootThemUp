@@ -13,10 +13,7 @@ void ASTULauncherWeapon::StartFire()
 
 void ASTULauncherWeapon::MakeShot()
 {
-	if (!GetWorld() || !ProjectileClass)
-	{
-		return;
-	}
+	if (!GetWorld() || !ProjectileClass) return;
 
 	if (IsAmmoEmpty())
 	{
@@ -26,10 +23,7 @@ void ASTULauncherWeapon::MakeShot()
 
 	FVector TraceStart;
 	FVector TraceEnd;
-	if (!GetTraceData(TraceStart, TraceEnd))
-	{
-		return;
-	}
+	if (!GetTraceData(TraceStart, TraceEnd)) return;
 
 	FHitResult HitResult;
 	MakeHit(HitResult, TraceStart, TraceEnd);

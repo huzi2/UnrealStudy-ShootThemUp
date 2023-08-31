@@ -60,7 +60,7 @@ void ASTUGameHUD::DrawCrossHair()
 	DrawLine(Center.Min, Center.Max - HalfLineSize, Center.Min, Center.Max + HalfLineSize, LineColor, LineThickness);
 }
 
-void ASTUGameHUD::OnMatchStateChanged(ESTUMatchState State)
+void ASTUGameHUD::OnMatchStateChanged(const ESTUMatchState State)
 {
 	if (CurrentWidget)
 	{

@@ -20,12 +20,12 @@ private:
 	ASTUAICharacter(const FObjectInitializer& ObjInit);
 
 private:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
+	virtual void BeginPlay() final;
+	virtual void Tick(float DeltaTime) final;
 
 private:
 	virtual void OnDeath() final;
-	virtual void OnHealthChanged(float Health, float HealthDelta) final;
+	virtual void OnHealthChanged(const float Health, const float HealthDelta) final;
 
 private:
 	void UpdateHealthWidgetVisibility();

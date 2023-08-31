@@ -15,23 +15,14 @@ AActor* USTUAIPerceptionComponent::GetClosetEnemy() const
     if (PercieveActors.Num() == 0)
     {
         GetCurrentlyPerceivedActors(UAISense_Damage::StaticClass(), PercieveActors);
-        if (PercieveActors.Num() == 0)
-        {
-            return nullptr;
-        }
+        if (PercieveActors.Num() == 0) return nullptr;
     }
 
     AAIController* Controller = Cast<AAIController>(GetOwner());
-    if (!Controller)
-    {
-        return nullptr;
-    }
+    if (!Controller) return nullptr;
 
     APawn* Pawn = Controller->GetPawn();
-    if (!Pawn)
-    {
-        return nullptr;
-    }
+    if (!Pawn)  return nullptr;
 
     float BestDistance = MAX_FLT;
     AActor* BestPawn = nullptr;

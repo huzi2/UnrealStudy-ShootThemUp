@@ -16,16 +16,10 @@ bool USTUNeedAmmoDecorator::CalculateRawConditionValue(UBehaviorTreeComponent& O
 	Super::CalculateRawConditionValue(OwnerComp, NodeMemory);
 
 	AAIController* Controller = OwnerComp.GetAIOwner();
-	if (!Controller)
-	{
-		return false;
-	}
+	if (!Controller) return false;
 
 	USTUWeaponComponent* WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Controller->GetPawn());
-	if (!WeaponComponent)
-	{
-		return false;
-	}
+	if (!WeaponComponent) return false;
 
 	return WeaponComponent->NeedAmmo(WeaponType);
 }

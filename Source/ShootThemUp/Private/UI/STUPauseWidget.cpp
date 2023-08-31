@@ -17,10 +17,7 @@ void USTUPauseWidget::NativeOnInitialized()
 
 void USTUPauseWidget::OnClearPause()
 {
-	if (!GetWorld() || !GetWorld()->GetAuthGameMode())
-	{
-		return;
-	}
+	if (!GetWorld() || !GetWorld()->GetAuthGameMode()) return;
 
 	GetWorld()->GetAuthGameMode()->ClearPause();
 }

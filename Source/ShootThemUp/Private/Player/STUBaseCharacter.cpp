@@ -18,7 +18,7 @@ ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer& ObjInit)
 	, LandedDamage(FVector2D(10.f, 100.f))
 	, MeterialColorName(TEXT("Paint Color"))
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	HealthComponent = CreateDefaultSubobject<USTUHealthComponent>(TEXT("HealthComponent"));
 	WeaponComponent = CreateDefaultSubobject<USTUWeaponComponent>(TEXT("WeaponComponent"));
@@ -38,11 +38,6 @@ void ASTUBaseCharacter::BeginPlay()
 	HealthComponent->OnHealthChanged.AddUObject(this, &ASTUBaseCharacter::OnHealthChanged);
 
 	LandedDelegate.AddDynamic(this, &ASTUBaseCharacter::OnGroundLanded);
-}
-
-void ASTUBaseCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 void ASTUBaseCharacter::TurnOff()
@@ -83,7 +78,7 @@ void ASTUBaseCharacter::OnDeath()
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), DeathSound, GetActorLocation());
 }
 
-void ASTUBaseCharacter::OnHealthChanged(float Health, float HealthDelta)
+void ASTUBaseCharacter::OnHealthChanged(const float Health, const float HealthDelta)
 {
 }
 
@@ -94,10 +89,7 @@ bool ASTUBaseCharacter::IsRunning() const
 
 float ASTUBaseCharacter::GetMovementDirection() const
 {
-	if (GetVelocity().IsZero())
-	{
-		return 0.f;
-	}
+	if (GetVelocity().IsZero()) return 0.f;
 
 	const FVector VelocityNormal = GetVelocity().GetSafeNormal();
 	const float AngleBetween = FMath::Acos(FVector::DotProduct(GetActorForwardVector(), VelocityNormal));
@@ -112,10 +104,7 @@ void ASTUBaseCharacter::OnGroundLanded(const FHitResult& Hit)
 
 	UE_LOG(LogBaseCharacter, Display, TEXT("On landed : %f"), FallVelocityZ);
 
-	if (FallVelocityZ < LandedDamageVelocity.X)
-	{
-		return;
-	}
+	if (FallVelocityZ < LandedDamageVelocity.X) return;
 
 	const float FinalDamage = FMath::GetMappedRangeValueClamped(LandedDamageVelocity, LandedDamage, FallVelocityZ);
 	UE_LOG(LogBaseCharacter, Display, TEXT("Final Damage : %f"), FinalDamage);
@@ -125,10 +114,7 @@ void ASTUBaseCharacter::OnGroundLanded(const FHitResult& Hit)
 void ASTUBaseCharacter::SetPlayerColor(const FLinearColor& Color)
 {
 	UMaterialInstanceDynamic* MaterialInst = GetMesh()->CreateAndSetMaterialInstanceDynamic(0);
-	if (!MaterialInst)
-	{
-		return;
-	}
+	if (!MaterialInst) return;
 
 	MaterialInst->SetVectorParameterValue(MeterialColorName, Color);
 }

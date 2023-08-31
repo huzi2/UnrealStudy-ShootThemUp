@@ -50,15 +50,12 @@ void ASTUPlayerController::SetupInputComponent()
 
 void ASTUPlayerController::OnPauseGame()
 {
-	if (!GetWorld() || !GetWorld()->GetAuthGameMode())
-	{
-		return;
-	}
+	if (!GetWorld() || !GetWorld()->GetAuthGameMode()) return;
 
 	GetWorld()->GetAuthGameMode()->SetPause(this);
 }
 
-void ASTUPlayerController::OnMatchStateChanged(ESTUMatchState State)
+void ASTUPlayerController::OnMatchStateChanged(const ESTUMatchState State)
 {
 	if (State == ESTUMatchState::InProgress)
 	{
@@ -74,16 +71,10 @@ void ASTUPlayerController::OnMatchStateChanged(ESTUMatchState State)
 
 void ASTUPlayerController::OnMuteSound()
 {
-	if (!GetWorld())
-	{
-		return;
-	}
+	if (!GetWorld()) return;
 	
 	USTUGameInstance* STUGameInstance = GetWorld()->GetGameInstance<USTUGameInstance>();
-	if (!STUGameInstance)
-	{
-		return;
-	}
+	if (!STUGameInstance) return;
 
 	STUGameInstance->ToggleVolume();
 }

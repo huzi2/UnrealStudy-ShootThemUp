@@ -7,20 +7,17 @@
 
 DEFINE_LOG_CATEGORY_STATIC(LogBaseWeapon, All, All);
 
-// Sets default values
 ASTUBaseWeapon::ASTUBaseWeapon()
 	: MuzzleSocketName(TEXT("MuzzleSocket"))
 	, TraceMaxDistance(1500.f)
 	, DefaultAmmo({15, 10, false})
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	WeaponMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponMeshComponent"));
 	SetRootComponent(WeaponMeshComponent);
 }
 
-// Called when the game starts or when spawned
 void ASTUBaseWeapon::BeginPlay()
 {
 	Super::BeginPlay();
@@ -36,10 +33,7 @@ bool ASTUBaseWeapon::GetTraceData(FVector& OutTraceStart, FVector& OutTraceEnd) 
 {
 	FVector ViewLocation;
 	FRotator ViewRotation;
-	if (!GetPlayerViewPoint(ViewLocation, ViewRotation))
-	{
-		return false;
-	}
+	if (!GetPlayerViewPoint(ViewLocation, ViewRotation)) return false;
 
 	OutTraceStart = ViewLocation;
 	const FVector ShootDirection = ViewRotation.Vector();
@@ -60,8 +54,6 @@ void ASTUBaseWeapon::ChangeClip()
 	}
 
 	CurrentAmmo.Bullets = DefaultAmmo.Bullets;
-
-	//UE_LOG(LogBaseWeapon, Display, TEXT("----- Change Clip -----"));
 }
 
 bool ASTUBaseWeapon::CanReload() const
@@ -69,12 +61,9 @@ bool ASTUBaseWeapon::CanReload() const
 	return CurrentAmmo.Bullets < DefaultAmmo.Bullets && CurrentAmmo.Clips > 0;
 }
 
-bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
+bool ASTUBaseWeapon::TryToAddAmmo(const int32 ClipsAmount)
 {
-	if (CurrentAmmo.Infinite || IsAmmoFull() || ClipsAmount <= 0)
-	{
-		return false;
-	}
+	if (CurrentAmmo.Infinite || IsAmmoFull() || ClipsAmount <= 0) return false;
 
 	if (IsAmmoEmpty())
 	{
@@ -115,18 +104,12 @@ bool ASTUBaseWeapon::IsAmmoFull() const
 bool ASTUBaseWeapon::GetPlayerViewPoint(FVector& OutViewLocation, FRotator& OutViewRotation) const
 {
 	ACharacter* STUCharacter = Cast<ACharacter>(GetOwner());
-	if (!STUCharacter)
-	{
-		return false;
-	}
+	if (!STUCharacter) return false;
 
 	if (STUCharacter->IsPlayerControlled())
 	{
 		APlayerController* Controller = STUCharacter->GetController<APlayerController>();
-		if (!Controller)
-		{
-			return false;
-		}
+		if (!Controller) return false;
 
 		Controller->GetPlayerViewPoint(OutViewLocation, OutViewRotation);
 	}
@@ -146,16 +129,12 @@ FVector ASTUBaseWeapon::GetMuzzleWorldLocation() const
 
 void ASTUBaseWeapon::MakeHit(FHitResult& OutHitResult, const FVector& TraceStart, const FVector& TraceEnd)
 {
-	if (!GetWorld())
-	{
-		return;
-	}
+	if (!GetWorld()) return;
 
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(GetOwner());
 	CollisionParams.bReturnPhysicalMaterial = true;
 
-	//GetWorld()->LineTraceSingleByChannel(OutHitResult, TraceStart, TraceEnd, ECollisionChannel::ECC_Visibility, CollisionParams);
 	GetWorld()->LineTraceSingleByChannel(OutHitResult, TraceStart, TraceEnd, ECollisionChannel::ECC_Pawn, CollisionParams);
 }
 

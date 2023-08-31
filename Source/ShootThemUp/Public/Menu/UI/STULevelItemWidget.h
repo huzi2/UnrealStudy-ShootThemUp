@@ -19,7 +19,7 @@ class SHOOTTHEMUP_API USTULevelItemWidget : public UUserWidget
 	GENERATED_BODY()
 
 private:
-	virtual void NativeOnInitialized() override;
+	virtual void NativeOnInitialized() final;
 
 private:
 	UFUNCTION()
@@ -32,9 +32,9 @@ private:
 	void OnLevelItemUnhovered();
 
 public:
-	FLevelData GetLevelData() const { return LevelData; }
+	FORCEINLINE const FLevelData GetLevelData() const { return LevelData; }
 	void SetLevelData(const FLevelData& Data);
-	void SetSelected(bool bIsSelected);
+	void SetSelected(const bool bIsSelected);
 
 protected:
 	UPROPERTY(meta = (BindWidget))

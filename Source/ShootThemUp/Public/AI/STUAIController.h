@@ -20,8 +20,8 @@ private:
 	ASTUAIController();
 
 private:
-	virtual void OnPossess(APawn* InPawn) override;
-	virtual void Tick(float DeltaTime) override;
+	virtual void OnPossess(APawn* InPawn) final;
+	virtual void Tick(float DeltaTime) final;
 
 private:
 	AActor* GetFocusOnActor() const;

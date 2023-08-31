@@ -35,7 +35,7 @@ void USTUGameOverWidget::OnResetLevel()
 	UGameplayStatics::OpenLevel(this, FName(CurrentLevelName));
 }
 
-void USTUGameOverWidget::OnMatchStateChanged(ESTUMatchState State)
+void USTUGameOverWidget::OnMatchStateChanged(const ESTUMatchState State)
 {
 	if (State == ESTUMatchState::GameOver)
 	{
@@ -45,32 +45,20 @@ void USTUGameOverWidget::OnMatchStateChanged(ESTUMatchState State)
 
 void USTUGameOverWidget::UpdatePlayersStat()
 {
-	if (!GetWorld() || !PlayerStatBox)
-	{
-		return;
-	}
+	if (!GetWorld() || !PlayerStatBox) return;
 
 	PlayerStatBox->ClearChildren();
 
 	for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
 	{
 		AController* Controller = It->Get();
-		if (!Controller)
-		{
-			continue;
-		}
+		if (!Controller) continue;
 
 		ASTUPlayerState* PlayerState = Cast<ASTUPlayerState>(Controller->PlayerState);
-		if (!PlayerState)
-		{
-			continue;
-		}
+		if (!PlayerState) continue;
 
 		USTUPlayerStatRowWidget* PlayerStatRowWidget = CreateWidget<USTUPlayerStatRowWidget>(GetWorld(), PlayerStatRowWidgetClass);
-		if (!PlayerStatRowWidget)
-		{
-			continue;
-		}
+		if (!PlayerStatRowWidget) continue;
 
 		PlayerStatRowWidget->SetPlayerName(FText::FromString(PlayerState->GetPlayerName()));
 		PlayerStatRowWidget->SetKills(STUUtils::TextFromInt(PlayerState->GetKillsNum()));

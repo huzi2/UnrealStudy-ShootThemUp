@@ -25,13 +25,11 @@ private:
 	ASTUPlayerCharacter(const FObjectInitializer& ObjInit);
 
 private:
-	virtual void BeginPlay() override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void BeginPlay() final;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) final;
 
 private:
 	virtual void OnDeath() final;
-
-private:
 	virtual bool IsRunning() const final;
 
 private:

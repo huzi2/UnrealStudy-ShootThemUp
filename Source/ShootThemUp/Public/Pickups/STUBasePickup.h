@@ -14,24 +14,19 @@ class SHOOTTHEMUP_API ASTUBasePickup : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
+protected:
 	ASTUBasePickup();
 
-protected:
-	// Called when the game starts or when spawned
+private:
 	virtual void BeginPlay() override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
-
-public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-public:
-	bool CouldBeTaken() const;
 
 protected:
 	virtual bool GivePickupTo(APawn* PlayerPawn);
+
+public:
+	bool CouldBeTaken() const;
 
 private:
 	void PickupWasTaken();

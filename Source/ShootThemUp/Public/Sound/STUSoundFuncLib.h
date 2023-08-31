@@ -16,7 +16,7 @@ class SHOOTTHEMUP_API USTUSoundFuncLib : public UBlueprintFunctionLibrary
 	
 public:
 	UFUNCTION(BlueprintCallable)
-	static void SetSoundClassVolume(USoundClass* SoundClass, float Volume);
+	static void SetSoundClassVolume(USoundClass* SoundClass, const float Volume);
 
 	UFUNCTION(BlueprintCallable)
 	static void ToggleSoundClassVolume(USoundClass* SoundClass);

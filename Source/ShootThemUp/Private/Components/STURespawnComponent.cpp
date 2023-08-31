@@ -10,12 +10,9 @@ USTURespawnComponent::USTURespawnComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void USTURespawnComponent::Respawn(int32 RespawnTime)
+void USTURespawnComponent::Respawn(const int32 RespawnTime)
 {
-	if (!GetWorld())
-	{
-		return;
-	}
+	if (!GetWorld()) return;
 
 	RespawnCountDown = RespawnTime;
 	GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, this, &USTURespawnComponent::RespawnTimerUpdate, 1.f, true);
@@ -30,18 +27,12 @@ void USTURespawnComponent::RespawnTimerUpdate()
 {
 	if (--RespawnCountDown == 0)
 	{
-		if (!GetWorld())
-		{
-			return;
-		}
+		if (!GetWorld()) return;
 
 		GetWorld()->GetTimerManager().ClearTimer(RespawnTimerHandle);
 
 		ASTUGameModeBase* GameMode = Cast<ASTUGameModeBase>(GetWorld()->GetAuthGameMode());
-		if (!GameMode)
-		{
-			return;
-		}
+		if (!GameMode) return;
 
 		GameMode->RespawnRequest(Cast<AController>(GetOwner()));
 	}

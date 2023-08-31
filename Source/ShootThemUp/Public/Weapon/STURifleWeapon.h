@@ -21,19 +21,19 @@ private:
 	ASTURifleWeapon();
 
 private:
-	virtual void BeginPlay() override;
+	virtual void BeginPlay() final;
 
 private:
 	virtual void StartFire() final;
 	virtual void StopFire() final;
 	virtual void MakeShot() final;
 	virtual bool GetTraceData(FVector& OutTraceStart, FVector& OutTraceEnd) const final;
-	virtual void Zoom(bool bEnabled) final;
+	virtual void Zoom(const bool bEnabled) final;
 
 private:
 	void MakeDamage(const FHitResult& HitResult);
 	void InitFX();
-	void SetFXActive(bool bIsActive);
+	void SetFXActive(const bool bIsActive);
 	void SpawnTraceFX(const FVector& TraceStart, const FVector& TraceEnd);
 	AController* GetController() const;
 

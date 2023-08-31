@@ -20,14 +20,14 @@ private:
 	USTUPlayerHUDWidget(const FObjectInitializer& ObjectInitializer);
 
 private:
-	virtual void NativeOnInitialized() override;
+	virtual void NativeOnInitialized() final;
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "UI")
 	void OnTakeDamage();
 
 private:
-	void OnHealthChanged(float Health, float HealthDelta);
+	void OnHealthChanged(const float Health, const float HealthDelta);
 	void OnNewPawn(APawn* NewPawn);
 	void UpdateHealthBar();
 
@@ -51,7 +51,7 @@ protected:
 	int32 GetKillsNum() const;
 
 	UFUNCTION(BlueprintPure, Category = "UI")
-	FString FormatBullets(int32 BulletsNum) const;
+	FString FormatBullets(const int32 BulletsNum) const;
 
 protected:
 	UPROPERTY(meta = (BindWidget))

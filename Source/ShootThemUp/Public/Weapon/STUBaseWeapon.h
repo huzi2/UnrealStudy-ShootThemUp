@@ -15,18 +15,16 @@ class SHOOTTHEMUP_API ASTUBaseWeapon : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
+protected:
 	ASTUBaseWeapon();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
 	virtual void StartFire() {}
 	virtual void StopFire() {}
-	virtual void Zoom(bool bEnabled) {}
+	virtual void Zoom(const bool bEnabled) {}
 
 protected:
 	virtual void MakeShot() {}
@@ -35,9 +33,9 @@ protected:
 public:
 	void ChangeClip();
 	bool CanReload() const;
-	FWeaponUIData GetUIData() const { return UIData; }
-	FAmmoData GetAmmoData() const { return CurrentAmmo; }
-	bool TryToAddAmmo(int32 ClipsAmount);
+	const FWeaponUIData& GetUIData() const { return UIData; }
+	const FAmmoData& GetAmmoData() const { return CurrentAmmo; }
+	bool TryToAddAmmo(const int32 ClipsAmount);
 	bool IsAmmoEmpty() const;
 	bool IsAmmoFull() const;
 

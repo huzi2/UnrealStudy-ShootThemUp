@@ -21,8 +21,8 @@ class SHOOTTHEMUP_API USTUMenuWidget : public USTUBaseWidget
 	GENERATED_BODY()
 	
 private:
-	virtual void NativeOnInitialized() override;
-	virtual void OnAnimationFinished_Implementation(const UWidgetAnimation* Animation) override;
+	virtual void NativeOnInitialized() final;
+	virtual void OnAnimationFinished_Implementation(const UWidgetAnimation* Animation) final;
 
 private:
 	UFUNCTION()
