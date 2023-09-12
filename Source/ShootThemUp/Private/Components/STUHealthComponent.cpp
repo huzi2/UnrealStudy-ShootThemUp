@@ -49,7 +49,7 @@ void USTUHealthComponent::OnTakePointDamage(AActor* DamagedActor, float Damage, 
 	ApplyDamage(FinalDamage, InstigatedBy);
 }
 
-void USTUHealthComponent::OnTakeRadialDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, FVector Origin, FHitResult HitInfo, AController* InstigatedBy, AActor* DamageCauser)
+void USTUHealthComponent::OnTakeRadialDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, FVector Origin, const FHitResult& HitInfo, AController* InstigatedBy, AActor* DamageCauser)
 {
 	UE_LOG(LogHealthCompnent, Display, TEXT("On radial damage : %f"), Damage);
 	ApplyDamage(Damage, InstigatedBy);
