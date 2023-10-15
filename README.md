@@ -6,9 +6,9 @@
 
 ## 프로젝트 영상
 
-![Video Label](http://img.youtube.com/vi/9AO-G4ecnsI/0.jpg)
+![Video Label](http://img.youtube.com/vi/haN_bnpZDMk/0.jpg)
 
-콤보 공격 및 적 AI 구현()
+기술 소개(https://youtu.be/haN_bnpZDMk)
 
 ## 프로젝트 개요
 언리얼 5.1 C++을 활용한 3인칭 2:2 팀 슈팅 게임(멀티X)
