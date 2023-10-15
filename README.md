@@ -4,6 +4,12 @@
 <img width="1516" alt="ShootThemUp2" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/9e5de732-db40-45e9-86f9-e1815d6382fa">
 <img width="1526" alt="ShootThemUp3" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/b156243a-fa22-4561-ab88-9037ab47e1c1">
 
+## 프로젝트 영상
+
+![Video Label](http://img.youtube.com/vi/9AO-G4ecnsI/0.jpg)
+
+콤보 공격 및 적 AI 구현()
+
 ## 프로젝트 개요
 언리얼 5.1 C++을 활용한 3인칭 2:2 팀 슈팅 게임(멀티X)
 
@@ -25,6 +31,10 @@
 - 플레이어스테이트를 활용한 킬 수, 데스 수 및 팀컬러 구현
 - AI의 체력바, 십자선, 시작 메뉴(맵 선택), 일시 정지 메뉴, 게임 HUD(탄창, 킬수, 남은 시간 등 표시), 게임 결과 메뉴(플레이어와 AI의 점수 표시) 구현
 - 사운드 큐, 어테뉴에이션(소리 감쇠), 사운드 클래스, 사운드 믹스를 활용한 UI, 배경음 등의 게임 사운드 구현
+
+## 기술 스크린 샷
+
+
 
 ### 참고 자료 : Udemy - Unreal Engine — полное руководство по разработке на С++(https://www.udemy.com/course/unrealengine/)
 
