@@ -67,32 +67,6 @@
 - [사운드 클래스](https://github.com/huzi2/UnrealStudy-ShootThemUp/wiki/에셋과-데이터#사운드-클래스)
 - [사운드 믹스](https://github.com/huzi2/UnrealStudy-ShootThemUp/wiki/에셋과-데이터#사운드-믹스)
 
-## 사용 기술
-
-## 기술 스크린 샷
-
-<img width="945" alt="image" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/abc7eea7-3fbd-4504-8e91-5b6e3e0db98e">
-<img width="874" alt="image" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/3619f4be-c95e-46ba-ab2b-34c1db25cf05">
-<img width="484" alt="image" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/4bd9140c-8829-4173-b08c-0f3f129cbfe2">
-<img width="969" alt="image" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/d2f7cef3-9dcf-42c3-92b8-58bdec841e6f">
-<img width="422" alt="image" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/2a468834-19d6-436d-a1b8-124e9eda9e68">
-<img width="425" alt="image" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/806c9101-d29c-4d75-8fc5-984e7fa060e3">
-<img width="997" alt="image" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/dcd08b6c-34e1-4fb2-972e-622eea0da55b">
-
-애니메이션 블루프린트
-
-<img width="1347" alt="image" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/88f0e8c3-7bff-4dac-b43a-2bf33123d2ad">
-
-AI 캐릭터 비헤이비어 트리
-
-<img width="1526" alt="image" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/824ce2e1-ceb4-47f3-b225-eaf958a23077">
-
-사운드 큐
-
-<img width="1474" alt="image" src="https://github.com/huzi2/UnrealStudy-ShootThemUp/assets/31639085/40fdb200-da02-48b9-96f1-fb030d746eca">
-
-사운드 클래스
-
 ### 참고 자료
 
 - [Udemy - Unreal Engine — полное руководство по разработке на С++](https://www.udemy.com/course/unrealengine/)
