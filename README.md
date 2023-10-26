@@ -31,7 +31,7 @@
 - [낙하 데미지](https://github.com/huzi2/UnrealStudy-ShootThemUp/wiki/게임-로직#낙하-데미지)
 - [피격 효과](https://github.com/huzi2/UnrealStudy-ShootThemUp/wiki/게임-로직#피격-효과)
 - [관전자](https://github.com/huzi2/UnrealStudy-ShootThemUp/wiki/게임-로직#관전자)
-- 킬 수 / 데스 수 기록
+- [킬 수 / 데스 수 기록](https://github.com/huzi2/UnrealStudy-ShootThemUp/wiki/게임-로직#킬-수--데스-수-기록)
 - 래그돌
 - 향상된 입력
 
