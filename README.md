@@ -24,6 +24,10 @@
 
 ## 사용 기술([위키](https://github.com/huzi2/UnrealStudy-ShootThemUp/wiki))
 
+### 비어있는 내용은 다른 프로젝트 위키 참고
+- [YGMActionGame](https://github.com/huzi2/UnrealPortfolio-YGMActionGame/wiki)
+- [Slash](https://github.com/huzi2/UnrealStudy-Slash/wiki)
+
 ### 게임 로직
 - [라이플 / 런처](https://github.com/huzi2/UnrealStudy-ShootThemUp/wiki/게임-로직#라이플--런처)
 - [부위별 데미지](https://github.com/huzi2/UnrealStudy-ShootThemUp/wiki/게임-로직#부위별-데미지)
